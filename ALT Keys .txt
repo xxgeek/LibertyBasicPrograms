@@ -21,3 +21,5 @@ alt T > Opens BAS<2>TKN Window for file selection
 alt U > Opens Liberty Basic Tutorial
 alt V > Opens MS Voice Recorder
 alt Y > Opens Selected Item for Edit in Liberty Basic IDE
+alt - > same as pressing [Re-Make Selected]
+alt shift _   > Open the MS Windows TaskManager

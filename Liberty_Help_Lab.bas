@@ -888,7 +888,8 @@ call saveValue
 'open windows taskmanager (used to kill "non responsive" code (usually caught in loops)
 [taskman]
 #lablog "@- [taskman] ............"
-run "taskmgr.exe"
+answer$ = "YES"
+prompt "Ctrl + Shift + Esc  -> Simultaneously"+chr$(13)+"Was this Helpful?";answer$
 wait
 
 'open Windows Calculator

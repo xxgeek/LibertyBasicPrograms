@@ -1058,6 +1058,9 @@ wait
 [sprites]
 #lablog "@- [sprites] ............"
  spriteEXEpath$ = DefaultDir$;"\SpriteCreator v2"
+ if fileExists(spriteEXEpath$,"SpriteCreator.exe") = 0 then
+ notice chr$(13);"Download Rod's SpriteCreator at "+chr$(13)+" https://gamebin.webs.com/SpriteCreator%20v2.zip"+chr$(13)+" and extract to DefaultDir$, then Try Again" : wait
+ end if
    if fileExists(spriteEXEpath$,"SpriteCreator.exe") <> 0 then run "SpriteCreator v2\SpriteCreator.exe" : wait
       answer$ = "Of Course I Do"
       prompt "Not Implimented "+chr$(13)+"Download Rod's SpriteMaker v2.0 ?";answer$

@@ -461,7 +461,7 @@ end
 [keySelected] 'a key in the list was selected
 #lablog, "@ - [keySelected] - a key was selected "
   call saveValue
-  #main.keys, "singleclickselect"
+  '#main.keys, "singleclickselect"
     #main.value "!origin 0, 0"
     #main.keys "selection? selectedKey$"
 #lablog, "selection made was  ";selectedKey$ 
@@ -471,7 +471,7 @@ end
      lastKey$ = selectedKey$
      #main.value "!setfocus";
      #main.value, "!origin 0 0"
-     #main.keys, "singleclickselect"
+     '#main.keys, "singleclickselect"
  wait
 
 'xxgeek code
@@ -1058,43 +1058,22 @@ wait
 [sprites]
 #lablog "@- [sprites] ............"
  spriteEXEpath$ = DefaultDir$;"\SpriteCreator v2"
- if fileExists(spriteEXEpath$,"SpriteCreator.exe") = 0 then
- notice chr$(13);"Download Rod's SpriteCreator at "+chr$(13)+" https://gamebin.webs.com/SpriteCreator%20v2.zip"+chr$(13)+" and extract to DefaultDir$, then Try Again" : wait
- end if
-   if fileExists(spriteEXEpath$,"SpriteCreator.exe") <> 0 then run "SpriteCreator v2\SpriteCreator.exe" : wait
-      answer$ = "Of Course I Do"
-      prompt "Not Implimented "+chr$(13)+"Download Rod's SpriteMaker v2.0 ?";answer$
-      if answer$ <> "Of Course I Do" then wait
-      file2down$ = "https://gamebin.webs.com/SpriteCreator%20v2.zip"
-      if fileExists(DefaultDir$ , "SpriteCreator%20v2.zip") <> 0 then [alreadyDownloaded]
-      run "curl -O ";q$;file2down$;q$
-cursor hourglass
-call pause 4000
-cursor normal
+   if fileExists(spriteEXEpath$,"SpriteCreator.exe") <> 0 then
+         run q$;spriteEXEpath$;"\";"SpriteCreator.exe";q$
+          wait
+   end if
+   if fileExists(spriteEXEpath$,"SpriteCreator.bas") = 0 then
+           notice chr$(13);"Download Rod's SpriteCreator at "+chr$(13)+" https://gamebin.webs.com/SpriteCreator%20v2.zip"+chr$(13)+" and extract to DefaultDir$, then Try Again" : wait
+   end if
+     if fileExists(spriteEXEpath$,"SpriteCreator.bas") <>  0 then [alreadyDownloaded]
+wait
 
 [alreadyDownloaded]
 #lablog "@- [alreadyDownloaded] ............"
-do
-if fileExists(DefaultDir$, "SpriteCreator%20v2.zip") <> 0 then exit do
- scan
-loop until res
-
-'run "PowerShell.exe Expand-Archive -Path SpriteCreator%20v2.zip -DestinationPath ";DefaultDir$',HIDE
 spriteCreatorPath$ = DefaultDir$;"\SpriteCreator v2"
 res = fileExists(DefaultDir$, "SpriteCreator v2\SpriteCreator.bas")
 #lablog "if SpriteCreator .bas exists heading to [makeexe]............"
      if res then spritecreated = 1 : goto [makeEXE]
-
- do
-      res = fileExists(DefaultDir$, "SpriteCreator v2\SpriteCreator.bas")
-      if res then exit do
-      notice "Sorry, Can't find ";"SpriteCreator.bas" : spritecreated = 0
-      scan
- loop until res
-#lablog "SpriteCreator .bas exists heading to [makeexe]............"
-     spritecreated = 1
-     goto [makeEXE]
- wait
 
 [preferences]
 confirm "No Preferences page yet"+chr$(13)+chr$(13)+"Was this helpful?";lol$
@@ -1295,7 +1274,7 @@ end sub
     call loadKeys
     #main.value, "!origin 0, 0 "
     #main.value, "!setfocus"
-    #main.keys, "singleclickselect"
+    '#main.keys, "singleclickselect"
  end sub
 
 'subroutine to GET the current Users HomePath
@@ -2735,6 +2714,7 @@ end sub
      #1,  chr$(13);date$();" ";Time$();" Error # ";Err;"  ";Err$;chr$(13)
    close #1
  notice "Error # ";Err;"    ";Err$;chr$(13);chr$(13);" !  MISSION INTERUPTED  !  ";chr$(13);" !  ABORTTING MISSION  ! ";chr$(13);" >>> Cleaning up Temp Files...........";chr$(13);chr$(13);" See lbHelpLabError.log "
+
 
 
 

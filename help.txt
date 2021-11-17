@@ -110,6 +110,13 @@ alt shift _ > Opens the MS Windows TaskManager(unless a runtime error occurs)
 
 Also, almost forgot. Whenever any automation occurs, bacckups(dated) are created of the selected .bas file, the TKN file and the EXE file in Separate folders. Browse your DefaultDir$ to view them. Whenever a Listing is deleted,  a backup is made of the corresponding categorie file. It is there in case you need it, but is overwrtten on the next deleted Listing
 
+Also one caveat 
+When an EXE file is created, it only includes all the Runtime files not any extra support file a user May add. So the EXE file, when run, will error out if say, it's looking for one of the files a user added such as bmp files etc.
+
+Also EXE files , when Run, run from the Windows Temp dir, and get deleted when the EXE file is closed, or End 'd
+That is an IEPRESS thing. I can't do anything about that. But I can copy it to a Dir on the users Home dir, and run it from there so the any files created don't get deleted when closed or End 'd.
+I'll be working on that over the winter. Also I want to be able to add any support files the user adds to a project. Not easy, but is doable.
+
 Ok thats about it.
 
 Keep in mind sometimes you have to double click a Title in a Listing to see the text in the texeditor.

@@ -65,7 +65,7 @@ if right$(FolderDialog$,1) = "\" then FolderDialog$ = left$(FolderDialog$, len(F
 'declare variables
 #lablog, "declaring variables......."
      q$ = chr$(34)
-     project = 0
+     project = 1
     DestPathU$ = DefaultDir$;"\Projects"
     lbexe$ = "liberty.exe"
     lbruntime$ = "run451.exe"
@@ -1330,7 +1330,7 @@ end sub
   goto [bas2exe]
 
 [bas2tkn]
-     if categorie$ <> programs$ then notice "You must first select RadioButtun >> Programs" : wait
+     if categorie$ <> programs$ then notice "You must first select Radio Button >> Programs" : wait
       #lablog," @ - [bas2tkn]"
        tkn = 3
 goto [bas2exe]
@@ -1416,16 +1416,16 @@ open "BAS2EXE v1.8" for window_nf as #pick
 
   #lablog$, "If tkn = 3 then BAS<2>EXE Button was pressed. Creating Make New Project Window"
    if tkn = 3 then
-       #pick.project, "HIDE"
+       '#pick.project, "HIDE"
        #pick.temp, "!HIDE"
-       #pick.incbas, "HIDE"
+       '#pick.incbas, "HIDE"
        #pick.exe "!HIDE"
        #pick.header "BAS < 2 > TKN"
        #pick.bit64, "HIDE"
        #pick.bit32, "HIDE"
        #pick.sed, "HIDE"
        #pick.vbs, "HIDE"
-       #pick.password, "HIDE"
+       '#pick.password, "HIDE"
    end if
 
    if tkn = 2 then

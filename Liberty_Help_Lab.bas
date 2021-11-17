@@ -982,15 +982,15 @@ chr$(13);_
 "     Date - Oct 28 2021";_
 chr$(13);_
 chr$(13);_
-"     Purpose - To Help New Liberty Bic Coders with Information, Help,  plus Examples";_
+"     Purpose - To Help New Liberty Basic Coders with Information, Help,  plus Examples";_
 "     and the ability to automatically manage and organize their coded, compiled, TKN,d and EXE,d projects.";_
 "     With Functions, Subroutines, code samples, code generators, searchable Help Files,";_
 "     ASCII codes, Reserved Words, MSpaint, notepad, error logs etc, at their FingerTips";_
 chr$(13);_
 chr$(13);_
-"    Libert Basic Help Lab and Project Manager  Is a collection of programs created by";_
-"     the creator of Libert Basic, Carl Gundel";_
-"     and members of the Libert Basic forums @ https://libertybasiccom.proboards.com/";_
+"    Liberty Basic Help Lab and Project Manager  Is a collection of programs created by";_
+"     the creator of Liberty Basic, Carl Gundel";_
+"     and members of the Liberty Basic forums @ https://libertybasiccom.proboards.com/";_
 "     Stitched together with added programs, features and abilities to enhance and";_
 "     make more efficient, the Liberty Basic coding experience with help at the users finger tips";_
 "     by utuizing the built in abilities, and files of Liberty Basic 4.5.1 and Windows 10";_

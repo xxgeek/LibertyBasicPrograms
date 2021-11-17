@@ -1037,9 +1037,13 @@ open lablog$ for append as #lablog
 wait
 
 [lbHelpLabHelp]
+help$ = "help.txt"
 #lablog "@- [lbHelpLabHelp] ............"
-message$ = "Not in this Version, please try without Help";chr$(13);"You Should be able to Figure it out"
-a$ = GetMessage$(message$)
+if fileExists(DefaultDir$, help$) then
+run "notepad ";help$
+else
+notice "Can't find Help File (help.txt) in DefaultDir$"
+end if
 wait
 
 'open Liberty Basic IDE

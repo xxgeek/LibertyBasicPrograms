@@ -32,7 +32,7 @@
 'they (and I) will help with whatever you need regarding Liberty Basic
 
 'xxgeek code
- 'check iberty Basic v4.5.1 Default Install Dir for existence
+ 'check Liberty Basic v4.5.1 Default Install Dir for existence
 on error goto [errorReport]
   open "lablog.log" for append as #lablog : lablogIsOpen = 1
   #lablog, ""
@@ -56,6 +56,7 @@ if right$(FolderDialog$,1) = "\" then FolderDialog$ = left$(FolderDialog$, len(F
  #lablog, "lbpath$ =  ";lbpath$ 
 
  [start]
+ cursor hourglass
 'declare globals, and dim arrays for key$ and info$ 
     #lablog, " >>> declaring globals ........."
  global ,fixedtime$, fixeddate$, addfastfunction, selectedKey$, project, fnamenobas$, DestPath$, DestPath1$, FolderDialog$, pnum, fastfuncs$, lbexe$, lbpath$, spritecreated, lbReservedWords$, dictionary$, keyCount, q$, fileToCheck$, lastKey$, helpFilePath$, resetsearch, closehtml, categorie$, upath$, selectedpath$
@@ -64,10 +65,12 @@ if right$(FolderDialog$,1) = "\" then FolderDialog$ = left$(FolderDialog$, len(F
 
 'declare variables
 #lablog, "declaring variables......."
-     q$ = chr$(34)
-     project = 1
-    DestPathU$ = DefaultDir$;"\Projects"
-    lbexe$ = "liberty.exe"
+     q$ = chr$(34) 'double quotes to wrap quotes in code
+     project = 1 ' "Keep Project" defaults to true
+     closehtml = 1 'close all htmlviewer windows defaults to true
+     incbas = 1 'include bas file defaulkts to true
+     p = 0 'passworded exe defaults to false
+     lbexe$ = "liberty.exe"
     lbruntime$ = "run451.exe"
     lbReservedWords$ = "AND, APPEND, AS, BEEP, BMPBUTTON, BMPSAVE, BOOLEAN, BUTTON, BYREF, CALL, CALLBACK, CALLDLL, CALLFN, CASE, CHECKBOX, CLOSE, CLS, COLORDIALOG, COMBOBOX, CONFIRM, CURSOR, DATA, DIALOG, DIM, DLL, DO, DOUBLE, DUMP, DWORD, ELSE, END, ERROR, EXIT, FIELD, FILEDIALOG, FILES, FONTDIALOG, FOR, FUNCTION, GET, GETTRIM, GLOBAL, GOSUB, GOTO, GRAPHICBOX, GRAPHICS, GROUPBOX, IF, INPUT, INPUTCSV, KILL, LET, LINE, LISTBOX, LOADBMP, LONG, LOOP, LPRINT, MAINWIN, MAPHANDLE, MENU, NAME, NEXT, NOMAINWIN, NONE, NOTICE, ON, ONCOMERROR, OR, OPEN, OUT, OUTPUT, PASSWORD, PLAYMIDI, PLAYWAVE, POPUPMENU, PRINT, PRINTERDIALOG, PROMPT, PTR, PUT, RADIOBUTTON, RANDOM, RANDOMIZE, READ, READJOYSTICK, REDIM, REM, RESTORE, RESUME, RETURN, RUN, SCAN, SELECT, SHORT, SORT, STATICTEXT, STOP, STOPMIDI, STRUCT, SUB, TEXT, TEXTBOX, TEXTEDITOR, THEN, TIMER, TITLEBAR, TRACE, ULONG, UNLOADBMP, UNTIL, USHORT, VOID, WAIT, WINDOW, WEND, WHILE, WORD, XOR, ABS(, ACS(, AFTER$(, AFTERLAST$(, ASC(, ASN(, ATN(, CHR$(, COS(, DATE$(, DECHEX$(, EOF(, EVAL(, EVAL$(, EXP(, HBMP(, HEXDEC(, HTTPGET$(, HWND(, INP(, INPUT$(, INPUTTO$(, INSTR(, INT(, LEFT$(, LEN(, LOF(, LOG(, LOWER$(, MAX(, MIDIPOS(, MID$(, MIN(, MKDIR(, NOT(, REMCHAR$(, REPLSTR$(, RIGHT$(, RMDIR(, RND(, SIN(, SPACE$(, SQR(, STR$(, TAB(, TAN(, TIME$(, TRIM$(, TXCOUNT(, UPPER$(, UPTO$(, USING(, VAL(, WINSTRING(, WORD$(, BackgroundColor$, ComboboxColor$, CommandLine$, DefaultDir$, DisplayHeight, DisplayWidth, Drives$, Err, Err$, ForegroundColor$, Joy1x, Joy1y, Joy1z, Joy1button1, Joy1button2, Joy2x, Joy2y, Joy2z, Joy2button1, Joy2button2, ListboxColor$, Platform$, PrintCollate, PrintCopies, PrinterFont$, PrinterName$, TextboxColor$, TexteditorColor$, Version$, WindowHeight, WindowWidth, UpperLeftX, UpperLeftY"
     DllList$="vbas31w.sll vgui31w.sll voflr31w.sll vthk31w.dll vtk1631w.dll vtk3231w.dll vvm31w.dll vvmt31w.dll"
@@ -85,8 +88,6 @@ if right$(FolderDialog$,1) = "\" then FolderDialog$ = left$(FolderDialog$, len(F
     help$ = "Help"
     subroutines$ = "Subroutines"
     functions$ = "Functions"
-    closehtml = 1
-    incbas = 1
 
 'cundo's fastcode generator
 [fastcode]
@@ -104,7 +105,7 @@ openhelp$ = lbpath$;"\lb4help\LibertyBASIC_4_web\amber_menu.htm"
     windowTypes$(18)= "window_nf":windowTypes$(19)= "window_popup"
 
 #lablog, "beginning to create help lab window......."
-'nomainwin
+nomainwin
     WindowWidth = 1368:WindowHeight = 768
     UpperLeftX= int((DisplayWidth-WindowWidth)/2)
     UpperLeftY= int((DisplayHeight-WindowHeight)/2)
@@ -135,7 +136,6 @@ openhelp$ = lbpath$;"\lb4help\LibertyBASIC_4_web\amber_menu.htm"
     trim$(mid$(txt$,hrefA+1,hrefB-hrefA-1))
       wend
   #lablog, "exiting search array loop  "
-cursor hourglass
 
 'lbsearch code by cundo
 #lablog, "finishing help lab window......."
@@ -191,13 +191,13 @@ cursor hourglass
    radiobutton #main.html, html$, [html], resetHandler, 1070, 585, 60, 20
    radiobutton #main.help, help$, [help], resetHandler, 1070, 625, 60, 20
 'buttons bottom left and middle
-   button #main.addListing, "&New ";left$(categorie$, (len(categorie$) - 1)), [newKey], ul, 5, 624, 137, 20
-   button #main.deleteListing, " &Delete Selected ", [deleteKey], ul, 150, 624, 140, 20
-   button #main.makeproject, " &Make New Project", [makeproject], ul, 5, 624, 140, 20
-   button #main.remakeproject, "Re&-Make Selected", [remakeproject], ul,5, 652, 140, 20
-   button #main.runListing, "&Run Selected", [runKey], ul, 150, 652, 140, 20
-   button #main.runlb, "Edit Selected with Libert&y IDE", [edit_In_lb_IDE], ul, 330, 652, 200, 20
-   button #main.editInNotepad, "Edit Se&lected with Notepad", [editInNotepad], ul, 580, 652, 200, 20
+   button #main.addListing, "&New ";left$(categorie$, (len(categorie$) - 1)), [newKey], ul, 5, 624, 137, 23
+   button #main.deleteListing, " &Delete Selected ", [deleteKey], ul, 150, 624, 140, 23
+   button #main.makeproject, " &Make New Project", [makeproject], ul, 5, 624, 140, 23
+   button #main.remakeproject, "Re&-Make Selected", [remakeproject], ul,5, 652, 140, 23
+   button #main.runListing, "&Run Selected", [runKey], ul, 150, 652, 140, 23
+   button #main.runlb, "Edit Selected in Libert&y Basic", [edit_In_lb_IDE], ul, 330, 652, 200, 23
+   button #main.editInNotepad, "Edit Se&lected with Notepad", [editInNotepad], ul, 580, 652, 200, 23
 'create buttons
    button #main.lbProgs, "&Liberty Basic", [lbProgs], ul, 1085, 30, 120, 25
    button #main.freeform, " LB &FreeForms ", [openFreeForm], ul, 1220, 30, 120, 25
@@ -240,10 +240,12 @@ cursor hourglass
    statictext  #main.useful, "Useful Tools", 1095, 102, 160, 20
    statictext  #main.browse, "Browse", 1250, 100, 162, 20
    statictext  #main.choose, "Select  a Category >>  >>> ", 55, 395, 200, 20
-   statictext  #main.killtext, "Kill All LB Processes >", 1170, 660, 150, 20
+   statictext  #main.killtext, "Kill All LB Processes >", 1165, 665, 150, 20
+   statictext  #main.logsClear, "Clear all Logs >", 1205, 628, 110, 20
    statictext  #main.lbforums, "Visit https://libertybasiccom.proboards.com/", 05, 700, 275, 25
 'kill all button
-   button #main.killAll, " &K ", [killAll], UL, 1320, 653, 30, 30
+   button #main.killAll, " &K ", [killAll], UL, 1315, 658, 30, 30
+   button #main.clearLogs, " &X ", [clearLogs], UL, 1315, 620, 30, 30
 
 #lablog, "opening help lab window......."
  open "Liberty Basic v4.5.1 Help Lab and Project Organizer" for window as #main
@@ -293,47 +295,33 @@ cursor hourglass
         #main.deleteListing, "!hide"
         #main.remakeproject, "!font arial 10 bold"
         #main.makeproject, "!font arial 10 bold"
-cursor normal
 #lablog, "calling progressbar 0......."
   call progressBar
 'get users home dir path
 #lablog,"calling getUserpath......."
-cursor hourglass
   call getUserPath
-  cursor normal
       pnum = 1
       #lablog, "User Home dir Path = ";upath$
       print "User Home dir Path = ";upath$
 'load up the list and combo boxes for dialogs, lbsamples, lb bak files, reserved words, and ascii codes
      #lablog, "calling progressbar 1......."
-     cursor hourglass
      call progressBar
-     cursor normal
 #lablog, "calling getAscii"
-     cursor hourglass
-     cursor normal
-     cursor hourglass
-     call getAscii
+    call getAscii
      pnum = 2
 #lablog, "calling progressbar 2......."
-     cursor hourglass
      call progressBar
 #lablog, "getlbreservedwords......."
-     cursor hourglass
      call getlbreservedwords
      pnum = 3
 #lablog, "calling progressbar 3......."
-     cursor hourglass
      call progressBar
 #lablog, "calling getlbsamples......."
-     cursor hourglass
      call getlbsamples
      pnum = 4
 #lablog, "calling progressbar 4......."
-     cursor hourglass
      call progressBar
 #lablog, "calling getlbBakFiles......."
-     cursor hourglass
   call getlbBakFiles
 #lablog, "calling progressbar 5......."
      pnum = 5
@@ -382,6 +370,7 @@ print "Creating new ";categorie$;" Listing"
                 call loadKeys
                call cleanup
              tkn = 0
+             cursor normal
              goto [done]
     end if
 
@@ -398,6 +387,7 @@ print "Creating new ";categorie$;" Listing"
                  call loadKeys
                call cleanup
              tkn = 0
+             cursor normal
            goto [done]
     end if
   end if
@@ -444,24 +434,23 @@ lb4tut$ = "new4features.lsn"
  wait
 
 [killAll]
-answer$ = "YES"
-prompt "ShutingDown ALL Liberty.exe Files "+chr$(13)+"Is Your Work Saved - ARE YOU SURE?";answer$
-if answer$ <> "YES" then wait
-#lablog, "@ - [killAll] - calling sub saveValue"
-call saveValue
-#lablog, "@ - [killAll] - calling sub cleanup"
-call cleanup
-#lablog, "@ - [killAll] - killing all open htmlviewer tasks"
-if fileExists(DefaultDir$, "htmlviewer.exe") <> 0 then run "taskkill /IM htmlviewer.exe /F", HIDE
-#lablog, "@ - [killAll] killing all open lbasic.exe tasks"
-run "taskkill /IM liberty.exe /F", HIDE
-end
+   answer$ = "YES"
+   prompt "Shuting down ALL Liberty.exe Files "+chr$(13)+"Is Your Work Saved - ARE YOU SURE?";answer$
+  if answer$ <> "YES" then wait
+ #lablog, "@ - [killAll] - calling sub saveValue"
+  call saveValue
+ #lablog, "@ - [killAll] - calling sub cleanup"
+  call cleanup
+ #lablog, "@ - [killAll] - killing all open htmlviewer tasks"
+  if fileExists(DefaultDir$, "htmlviewer.exe") <> 0 then run "taskkill /IM htmlviewer.exe /F", HIDE
+ #lablog, "@ - [killAll] killing all open liberty basic tasks"
+  run "taskkill /IM liberty.exe /F", HIDE
+ end
 
 'Carl Gundel's Dictionary code
 [keySelected] 'a key in the list was selected
 #lablog, "@ - [keySelected] - a key was selected "
   call saveValue
-  '#main.keys, "singleclickselect"
     #main.value "!origin 0, 0"
     #main.keys "selection? selectedKey$"
 #lablog, "selection made was  ";selectedKey$ 
@@ -471,7 +460,6 @@ end
      lastKey$ = selectedKey$
      #main.value "!setfocus";
      #main.value, "!origin 0 0"
-     '#main.keys, "singleclickselect"
  wait
 
 'xxgeek code
@@ -486,7 +474,7 @@ print "@- [deleteKey]....."
    answer$ = "yes"
     if selectedKey$ = "" then
     prompt "No Selection made. Try again?";answer$
-    if selectedKey$ = "" then wait
+    if selectedKey$ <> "yes" then wait
     end if
   prompt "Deleting Entry" + chr$(13) + selectedKey$ + "   OK ?";answer$
     if answer$ <> "yes" then wait
@@ -603,7 +591,7 @@ if selectedKey$ = "" then notice "Select from list, try again" : wait
          #lablog, "Notepad opened sucessfully ";selectedKey$;" of ";categorie$;" FILE USED, not TEXT"
    else
    answer$ = "yes"
-   notice " The file doesn't exist yet."+ chr$(13)+"  No project for "+ chr$(13)+ selectedKey$ + chr$(13) + "Open notepad anyway, and edit the text in texeditor for " + chr$(13) + selectedKey$ +" ?" ; answer$
+   prompt "No project made yet for "+ chr$(13)+ selectedKey$ + chr$(13) + "Edit the text for " + chr$(13) + selectedKey$ +"in notepad ?" ; answer$
 if answer$ <> "yes" then wait
         #main.value, "!contents? forNotepad$";
         open "untitledTemp.bas" for output as #1
@@ -614,7 +602,7 @@ if answer$ <> "yes" then wait
          end if
 wait
 
-'top menu "Open File in lb IDE"
+'top menu "Open File in liberty basic  IDE"
 [openFile]
 #lablog "@- [openFile] opening filedialog to select a file for edit in LB IDE"
  filedialog "Open \ Select a Liberty Basic Source File (.bas) ", DefaultDir$; "\*.bas", openFilename$
@@ -642,7 +630,6 @@ wait
 #lablog "@- [projs] ........"
    #main.runListing, "!show"
    #main.makeproject, "!show"
-   #main.remakeproject, "!show"
    #main.runlb, "!show"
    #main.addListing, "!hide"
    #main.editInNotepad, "!show"
@@ -650,6 +637,8 @@ wait
    call saveValue
    #main.value, "!cls"
       categorie$ = MyProjects$
+   #main.remakeproject, "Re-Make Project"
+   #main.remakeproject, "!show"
  call resetRadioOptions
     category$ = categorie$
     category$= left$(category$, (len(category$) - 1))
@@ -662,7 +651,6 @@ wait
 #lablog "@- [progs] ............"
    #main.runListing, "!show"
    #main.makeproject, "!hide"
-   #main.remakeproject, "!hide"
    #main.runlb, "!show"
    #main.addListing, "!show"
    #main.deleteListing, "!show"
@@ -670,6 +658,8 @@ wait
   call saveValue
    #main.value, "!cls"
      categorie$ = programs$
+     #main.remakeproject, "Re-Make Program"
+        #main.remakeproject, "!show"
   call resetRadioOptions
    #main.addListing, "&New ";left$(categorie$, (len(categorie$) - 1))
      category$ = categorie$
@@ -887,8 +877,6 @@ call saveValue
 
 'open windows taskmanager (used to kill "non responsive" code (usually caught in loops)
 [taskman]
-'taskmgr$ = "taskmgr.exe"
-'run "cmd /c ";q$;taskmgr$;q$
 #lablog "@- [taskman] ............"
 run "explorer c:\Windows\System32\taskmgr.exe"
 wait
@@ -924,128 +912,144 @@ wait
 
 [spritesDir]
 #lablog "@- [spritesDir] ............"
-if pathExists(upath$+"\AppData\Roaming\Liberty Basic v4.5.1\SPRITES") <> 0 then
-lbusppath$ = upath$+"\AppData\Roaming\Liberty Basic v4.5.1\SPRITES"
-run "explorer.exe ";q$;lbusppath$;q$
-else
-if pathExists(upath$+"\Application Data\Liberty Basic v4.5.1\SPRITES") <> 0 then
-lbusppath$ = upath$+"\Application Data\Liberty Basic v4.5.1\SPRITES"
-run "explorer.exe ";q$;lbusppath$;q$
-end if
-end if
-wait
+     if pathExists(upath$+"\AppData\Roaming\Liberty Basic v4.5.1\SPRITES") <> 0 then
+         lbusppath$ = upath$+"\AppData\Roaming\Liberty Basic v4.5.1\SPRITES"
+         run "explorer.exe ";q$;lbusppath$;q$
+     else
+           if pathExists(upath$+"\Application Data\Liberty Basic v4.5.1\SPRITES") <> 0 then
+              lbusppath$ = upath$+"\Application Data\Liberty Basic v4.5.1\SPRITES"
+               run "explorer.exe ";q$;lbusppath$;q$
+           end if
+     end if
+ wait
 
 [tknDir]
 #lablog "@- [tknDir] ............"
-a$ = DefaultDir$;"\TKN"
-run "explorer.exe ";q$;a$;q$
-wait
+   a$ = DefaultDir$;"\TKN"
+   run "explorer.exe ";q$;a$;q$
+ wait
 
 [bmpDir]
 #lablog "@- [bmpDir] ............"
-if pathExists(upath$+"\AppData\Roaming\Liberty Basic v4.5.1\bmp") <> 0 then
-lbusppath$ = upath$+"\AppData\Roaming\Liberty Basic v4.5.1\bmp"
-run "explorer.exe ";q$;lbusppath$;q$
-else
-if pathExists(upath$+"\Application Data\Liberty Basic v4.5.1\bmp") <> 0 then
-lbusppath$ = upath$+"\Application Data\Liberty Basic v4.5.1\bmp"
-run "explorer.exe ";q$;lbusppath$;q$
-end if
-end if
-wait
+   if pathExists(upath$+"\AppData\Roaming\Liberty Basic v4.5.1\bmp") <> 0 then
+      lbusppath$ = upath$+"\AppData\Roaming\Liberty Basic v4.5.1\bmp"
+      run "explorer.exe ";q$;lbusppath$;q$
+   else
+      if pathExists(upath$+"\Application Data\Liberty Basic v4.5.1\bmp") <> 0 then
+        lbusppath$ = upath$+"\Application Data\Liberty Basic v4.5.1\bmp"
+        run "explorer.exe ";q$;lbusppath$;q$
+     end if
+   end if
+ wait
 
 [lbexamplesDir]
 #lablog "@- [lbexamplesDir] ............"
-if pathExists(upath$+"\AppData\Roaming\Liberty Basic v4.5.1") <> 0 then
-lbusppath$ = upath$+"\AppData\Roaming\Liberty Basic v4.5.1"
-run "explorer.exe ";q$;lbusppath$;q$
-else
-if pathExists(upath$+"\Application Data\Liberty Basic v4.5.1") <> 0 then
-lbusppath$ = upath$+"\Application Data\Liberty Basic v4.5.1"
-run "explorer.exe ";q$;lbusppath$;q$
-end if
-end if
-wait
+    if pathExists(upath$+"\AppData\Roaming\Liberty Basic v4.5.1") <> 0 then
+      lbusppath$ = upath$+"\AppData\Roaming\Liberty Basic v4.5.1"
+      run "explorer.exe ";q$;lbusppath$;q$
+    else
+       if pathExists(upath$+"\Application Data\Liberty Basic v4.5.1") <> 0 then
+          lbusppath$ = upath$+"\Application Data\Liberty Basic v4.5.1"
+          run "explorer.exe ";q$;lbusppath$;q$
+      end if
+    end if
+ wait
 
 [defaultDir]
-run "explorer.exe ";q$;DefaultDir$;q$
-wait
+  run "explorer.exe ";q$;DefaultDir$;q$
+ wait
 
 [about]
 #lablog "@- [about] ............"
-message$ = chr$(13);"     LB Help Lab and Project Manager v1.0";_
-chr$(13);_
-chr$(13);_
-"     Created by xxgeek";_
-chr$(13);_
-chr$(13);_
-"     Date - Oct 28 2021";_
-chr$(13);_
-chr$(13);_
-"     Purpose - To Help New Liberty Basic Coders with Information, Help,  plus Examples";_
-"     and the ability to automatically manage and organize their coded, compiled, TKN,d and EXE,d projects.";_
-"     With Functions, Subroutines, code samples, code generators, searchable Help Files,";_
-"     ASCII codes, Reserved Words, MSpaint, notepad, error logs etc, at their FingerTips";_
-chr$(13);_
-chr$(13);_
-"    Liberty Basic Help Lab and Project Manager  Is a collection of programs created by";_
-"     the creator of Liberty Basic, Carl Gundel";_
-"     and members of the Liberty Basic forums @ https://libertybasiccom.proboards.com/";_
-"     Stitched together with added programs, features and abilities to enhance and";_
-"     make more efficient, the Liberty Basic coding experience with help at the users finger tips";_
-"     by utuizing the built in abilities, and files of Liberty Basic 4.5.1 and Windows 10";_
-chr$(13);_
-chr$(13);_
-"    Credit goes to cundo for lbsearch(the LB help file search engine)";_
-"    Credit also goes to cundo for the fastcode(window code generator)";_
-"    Credit goes to Carl Gundel for the Dictionary code(handling the categories";_
-"    lists, and texteditor data saving and retrieval (not to mention Carl Gundel";_
-"    gives Liberty Basic away FREE! with runtime files so your projects are royalty FREE)";_
-"    Credit goes to Rod, not only for his SpriteCreator program, but for his many";_
-"    answers to my difficult questions, while at times going out of his way to help.";_
-"    Last, but not least, rather most importantly credit goes to a member - handle name";_
-"    tsh73 for his proof of concept code demonstrating that the TKN file can be created;";_
-"    using lb code (that got this project off the ground), his help whenever needed,";_
-"    his ideas, programming skills and his abilty to dig into posted code and fix problem issues"
-a$ = GetMessage$(message$)
+  message$ = chr$(13);"     LB Help Lab and Project Manager v1.0";_
+  chr$(13);_
+  chr$(13);_
+  "     Created by xxgeek";_
+  chr$(13);_
+  chr$(13);_
+  "     Date - Oct 28 2021";_
+  chr$(13);_
+  chr$(13);_
+  "     Purpose - To Help New Liberty Basic Coders with Information, Help,  plus Examples";_
+  "     and the ability to automatically manage and organize their coded, compiled, TKN,d and EXE,d projects.";_
+  "     With Functions, Subroutines, code samples, code generators, searchable Help Files,";_
+  "     ASCII codes, Reserved Words, MSpaint, notepad, error logs etc, at their FingerTips";_
+  chr$(13);_
+  chr$(13);_
+  "    Liberty Basic Help Lab and Project Manager  Is a collection of programs created by";_
+  "     the creator of Liberty Basic, Carl Gundel";_
+  "     and members of the Liberty Basic forums @ https://libertybasiccom.proboards.com/";_
+  "     Stitched together with added programs, features and abilities to enhance and";_
+  "     make more efficient, the Liberty Basic coding experience with help at the users finger tips";_
+  "     by utuizing the built in abilities, and files of Liberty Basic 4.5.1 and Windows 10";_
+  chr$(13);_
+  chr$(13);_
+  "    Credit goes to cundo for lbsearch(the LB help file search engine)";_
+  "    Credit also goes to cundo for the fastcode(window code generator)";_
+  "    Credit goes to Carl Gundel for the Dictionary code(handling the categories";_
+  "    lists, and texteditor data saving and retrieval (not to mention Carl Gundel";_
+  "    gives Liberty Basic away FREE! with runtime files so your projects are royalty FREE)";_
+  "    Credit goes to Rod, not only for his SpriteCreator program, but for his many";_
+  "    answers to my difficult questions, while at times going out of his way to help.";_
+  "    Last, but not least, rather most importantly credit goes to a member - handle name";_
+  "    tsh73 for his proof of concept code demonstrating that the TKN file can be created;";_
+  "    using lb code (that got this project off the ground), his help whenever needed,";_
+  "    his ideas, programming skills and his abilty to dig into posted code and fix problem issues"
+ a$ = GetMessage$(message$)
 wait
 
 [lberrorLog]
-lberrorlog$ = "error.log"
+ lberrorlog$ = "error.log"
 #lablog "@- [lberrorLog]opening the lb error log ............"
-       if fileExists(upath$;"\AppData\Roaming\Liberty Basic v4.5.1", lberrorlog$) then
+    if fileExists(upath$;"\AppData\Roaming\Liberty Basic v4.5.1", lberrorlog$) then
 run "notepad ";q$;upath$;"\AppData\Roaming\Liberty Basic v4.5.1\error.log";q$
 else
       if fileExists(upath$;"\Application Data\Liberty Basic v4.5.1", lberrorlog$) then
-      run "notepad ";q$;upath$;"\Application Data\Liberty Basic v4.5.1\error.log";q$
+         run "notepad ";q$;upath$;"\Application Data\Liberty Basic v4.5.1\error.log";q$
       else
-      notice "Can't find the LB error log"
+         notice "Can't find the LB error log"
       end if
-      end if
+   end if
 wait
 
 [helplaberrorLog]
 #lablog "@- [helplaberrorLog] - opening helplaberrorLog........"
-helplaberrorLog$ = "lbHelpLabError.log"
-run "notepad ";helplaberrorLog$
-wait
+ helplaberrorLog$ = "lbHelpLabError.log"
+  run "notepad ";helplaberrorLog$
+ wait
 
 [labLog]
 #lablog "@- [labLog] User clicked to open error log closing error log temporarily............"
-close #lablog
-lablog$ = "lablog.log"
-run "notepad ";lablog$
-open lablog$ for append as #lablog
-wait
+   close #lablog
+    lablog$ = "lablog.log"
+   run "notepad ";lablog$
+   open lablog$ for append as #lablog
+ wait
 
 [lbHelpLabHelp]
-help$ = "help.txt"
+ help$ = "help.txt"
 #lablog "@- [lbHelpLabHelp] ............"
-if fileExists(DefaultDir$, help$) then
-run "notepad ";help$
-else
-notice "Can't find Help File (help.txt) in DefaultDir$"
-end if
+   if fileExists(DefaultDir$, help$) then
+       run "notepad ";help$
+   else
+     notice "Can't find Help File (help.txt) in DefaultDir$"
+   end if
+ wait
+
+'clear all logs pressed
+[clearLogs]
+print "@ [clearLogs] - closing #lablog temporarily, and clearing all logs by deletion"
+if lablogIsOpen = 1 then close #lablog
+lablog$ = "lablog.log"
+runtimeErrorLog$ = "error.log"
+lbHelpLabErrorLog$ = "lbHelpLabError.log"
+if fileExists(DefaultDir$, lablog$) then kill DefaultDir$;"\";lablog$
+if fileExists(DefaultDir$, lbHelpLabErrorLog$) then kill DefaultDir$;"\";lbHelpLabErrorLog$
+if fileExists(DefaultDir$, runtimeErrorLog$) then kill DefaultDir$;"\";runtimeErrorLog$
+open lablog$ for append as #lablog
+#lablog, "@ [clearLogs] -  #lablog closed temporarily while clearing all logs by deletion"
+#lablog, "lablog re-opened > Logs Cleared"
+print "Logs Cleared"
 wait
 
 'open Liberty Basic IDE
@@ -1060,7 +1064,7 @@ wait
   run "mspaint.exe"
 wait
 
-'download Rod's SpriteCreator
+'Rod's SpriteCreator
 [sprites]
 #lablog "@- [sprites] ............"
  spriteEXEpath$ = DefaultDir$;"\SpriteCreator v2"
@@ -1076,20 +1080,20 @@ wait
 
 [alreadyDownloaded]
 #lablog "@- [alreadyDownloaded] ............"
-spriteCreatorPath$ = DefaultDir$;"\SpriteCreator v2"
-res = fileExists(DefaultDir$, "SpriteCreator v2\SpriteCreator.bas")
+  spriteCreatorPath$ = DefaultDir$;"\SpriteCreator v2"
+  res = fileExists(DefaultDir$, "SpriteCreator v2\SpriteCreator.bas")
 #lablog "if SpriteCreator .bas exists heading to [makeexe]............"
      if res then spritecreated = 1 : goto [makeEXE]
 
 [preferences]
-confirm "No Preferences page yet"+chr$(13)+chr$(13)+"Was this helpful?";lol$
-wait
+  confirm "No Preferences page yet"+chr$(13)+chr$(13)+"Was this helpful?";lol$
+ wait
 
 ' a program to select a bas file to get it's Line count
 [numofLines]
 #lablog "@- [numofLines]............"
-dim line$(20000)
-filedialog "Open \ Select a Liberty Basic Source File (.bas) ", DefaultDir$; "\*.bas", file2Check$
+  dim line$(20000)
+  filedialog "Open \ Select a Liberty Basic Source File (.bas) ", DefaultDir$; "\*.bas", file2Check$
      if file2Check$ = "" then wait
     open file2Check$ for input as #1
   while eof(#1) = 0
@@ -1121,17 +1125,17 @@ sub lbsampleSelected lbsamplesList$
     print "lbSamplesPath = ";upath$;"\AppData\Roaming\Liberty Basic v4.5.1\";lbsamps$
     lbRunIt$ = lbpath$;"\";lbexe$
   if fileExists(upath$;"\AppData\Roaming\Liberty Basic v4.5.1", lbsamps$) <> 0 then
-    runFile$ = upath$;"\Application Data\Liberty Basic v4.5.1\";lbsamps$
-    run q$;lbRunIt$;q$;" ";q$;runFile$;q$
-    else
-  if fileExists(upath$;"\Application Data\Liberty Basic v4.5.1", lbsamps$) <> 0 then
-    runFile$ = upath$;"\Application Data\Liberty Basic v4.5.1\";lbsamps$
-    run q$;lbRunIt$;q$;" ";q$;runFile$;q$
-    else
-    notice "Can't find ";lbsamps$;".txt"
-    end if
-    end if
-end sub
+        runFile$ = upath$;"\Application Data\Liberty Basic v4.5.1\";lbsamps$
+         run q$;lbRunIt$;q$;" ";q$;runFile$;q$
+  else
+        if fileExists(upath$;"\Application Data\Liberty Basic v4.5.1", lbsamps$) <> 0 then
+          runFile$ = upath$;"\Application Data\Liberty Basic v4.5.1\";lbsamps$
+          run q$;lbRunIt$;q$;" ";q$;runFile$;q$
+       else
+          notice "Can't find ";lbsamps$;".txt"
+      end if
+  end if
+ end sub
 
  sub lbdialogSelected lbdialogsList$
 #lablog," entering sub lbdialogSelected lbdialogsList$"
@@ -1167,20 +1171,20 @@ q$ = chr$(34)
     #main.lbbakfilesList, "selection? lbbakfile$"
       lbbakfile$ = lbbakfile$;".bak"
       print "lbbakfilePath = ";upath$;"\AppData\Roaming\Liberty BASIC v4.5.1\bak";lbbakfile$ 
- if fileExists(upath$;"\AppData\Roaming\Liberty BASIC v4.5.1\bak", lbbakfile$) <> 0 then
-    runFile$ = upath$;"\AppData\Roaming\Liberty BASIC v4.5.1\bak\";lbbakfile$
-    lbRunIt$ = lbpath$;"\";lbexe$
-    run q$;lbRunIt$;q$;" ";q$;runFile$;q$
-    else
- if fileExists(upath$;"\Application Data\Liberty BASIC v4.5.1\bak\", lbbakfile$) <> 0 then
-    runFile$ = upath$;"\Application Data\Liberty BASIC v4.5.1\bak\";lbbakfile$
-    lbRunIt$ = lbpath$;"\";lbexe$
-    run q$;lbRunIt$;q$;" ";q$;runFile$;q$
-    else
-    notice "can't find ";lbbakfile$
- end if
- end if
-end sub
+  if fileExists(upath$;"\AppData\Roaming\Liberty BASIC v4.5.1\bak", lbbakfile$) <> 0 then
+        runFile$ = upath$;"\AppData\Roaming\Liberty BASIC v4.5.1\bak\";lbbakfile$
+        lbRunIt$ = lbpath$;"\";lbexe$
+        run q$;lbRunIt$;q$;" ";q$;runFile$;q$
+  else
+       if fileExists(upath$;"\Application Data\Liberty BASIC v4.5.1\bak\", lbbakfile$) <> 0 then
+         runFile$ = upath$;"\Application Data\Liberty BASIC v4.5.1\bak\";lbbakfile$
+         lbRunIt$ = lbpath$;"\";lbexe$
+         run q$;lbRunIt$;q$;" ";q$;runFile$;q$
+      else
+         notice "can't find ";lbbakfile$
+      end if
+  end if
+ end sub
 
 'next few subroutines to GET the info to populate the combo boxes
  sub getAscii
@@ -1225,7 +1229,6 @@ end sub
 
 sub getlbdialogs
 #lablog," entering sub getlbdialogs"
-q$ = chr$(34)
 lbFontDialog$ = " All lbDialogs, Prompt Dialog, Notice Dialog, Font Dialog, Color Dialog, File Dialog, Printer Dialog, Confirm Dialog"
  for x = 1 to 8
     print "filename$ = ";word$(lbFontDialog$, x, ",")
@@ -1253,13 +1256,12 @@ end sub
 
 sub getlbBakFiles
  #lablog," entering sub getlbBakFiles "
-q$ = chr$(34)
     dim folderInfo$(1, 1)
     dim lbbakfilesList$(500)
     files upath$;"\Application Data\Liberty BASIC v4.5.1\bak", folderInfo$()
     numberOfFiles = val(folderInfo$(0, 0))
      redim lbbakfilesList$(numberOfFiles)
-  For x = 0 to numberOfFiles
+  for x = 0 to numberOfFiles
        print folderInfo$(x, 0)
        filename$ = folderInfo$(x, 0)
       if right$(filename$, 3) <> "bak" then [skip]
@@ -1280,7 +1282,6 @@ end sub
     call loadKeys
     #main.value, "!origin 0, 0 "
     #main.value, "!setfocus"
-    '#main.keys, "singleclickselect"
  end sub
 
 'subroutine to GET the current Users HomePath
@@ -1301,17 +1302,17 @@ end sub
  'create a project and tkn file and add it to the MyProjects List
 [makeproject]
 #lablog," @ - [makeproject]"
-          if categorie$ <> MyProjects$ then
-             notice "You must first select Radio Button >> MyProjects" : wait
-          end if
-            tkn = 2
-            project = 1
-      goto [bas2exe]
+     if categorie$ <> MyProjects$ then
+        notice "You must first select Radio Button >> MyProjects" : wait
+     end if
+       tkn = 2
+       project = 1
+  goto [bas2exe]
 
 [remakeproject]
  #lablog," @ - [remakeproject]"
-     if selectedKey$ = "" then notice "No Listing selected. Select an item from MyProjects list and try again " : wait
-     if fileExists(savedProjects$;"\";selectedKey$,selectedKey$;".bas") = 0 then notice selectedKey$+chr$(13)+"Project wasn't saved"+chr$(13)+"Try [Make New Project]"+chr$(13)+"And Select the appropriate .bas file" : wait
+     if selectedKey$ = "" then notice "No Listing selected. Select an item from "+categorie$+ " list and Try Again " : wait
+     if fileExists(savedProjects$;"\";selectedKey$,selectedKey$;".bas") = 0 then notice selectedKey$+chr$(13)+" of "+categorie$+" wasn't saved"+chr$(13)+"Try [Make New Project], BAS<2>EXE, or BAS<2>TKN"+chr$(13)+"And Select the appropriate .bas file" : wait
     project = 1
     tkn = 4
      fname$ = savedProjects$;"\";selectedKey$;"\";selectedKey$;".bas"
@@ -1334,7 +1335,7 @@ goto [bas2exe]
 'Author - xxgeek, a member of the justbasiccom.proboards.com/ forums
  print "Starting into BAS2EXE"
 [bas2exe]
-#lablog, "@ - [bas2exe]"
+#lablog, "@ - [bas2exe] - calling fixtime, and fixdate"
 call fixtime
 call fixdate
 
@@ -1342,7 +1343,6 @@ if tkn = 0 then print "@ [bas2exe] Starting - Running BAS<2>EXE user chooses if 
 if tkn = 2 then print "@ [bas2exe] Starting  - Making New Project, plus creating new listing in MyProjects category"
 if tkn = 3 then print "@ [bas2exe] Starting  - Making TKN, plus adding listing in Programs category"
 if tkn = 4 then print "@ [bas2exe] Starting to remake project ";selectedKey$;" ReWriting MyProjects Listing"
-    p = 0 'passworded exe defaults to false
 
 [go]
 #lablog," @ - [go]  - Starting to make window for make tkn, bas2exe, or makeproject"
@@ -1382,7 +1382,6 @@ if tkn = 4 then print "@ [bas2exe] Starting to remake project ";selectedKey$;" R
 'open the Window, and set some Fonts for each statictext, and buttons
 open "BAS2EXE v1.8" for window_nf as #pick
  #pick, "trapclose [quit.pick]"
- '#pick.project, "set"
  #pick, "font Arial 10 bold"
  #pick.header, "!font Arial 24 bold"
  #pick.exe, "!font Arial 14 bold"
@@ -1404,16 +1403,13 @@ open "BAS2EXE v1.8" for window_nf as #pick
 
   #lablog$, "If tkn = 3 then BAS<2>EXE Button was pressed. Creating Make New Project Window"
    if tkn = 3 then
-       '#pick.project, "HIDE"
        #pick.temp, "!HIDE"
-       '#pick.incbas, "HIDE"
        #pick.exe "!HIDE"
        #pick.header "BAS < 2 > TKN"
        #pick.bit64, "HIDE"
        #pick.bit32, "HIDE"
        #pick.sed, "HIDE"
        #pick.vbs, "HIDE"
-       '#pick.password, "HIDE"
    end if
 
    if tkn = 2 then
@@ -1517,7 +1513,7 @@ wait
   #pick.bit32, "show"
 wait
 
-'close the opening window for Selecting bas file
+'close the open window for Selecting bas file
 [defaultClick]
 cursor hourglass
 #lablog, "Select File button pressed - closing Select Source File window "
@@ -1572,7 +1568,7 @@ res=fileExists(lbpath$,"vvm31w.dll")
 res=fileExists(lbpath$,"vvmt31w.dll")
     if res then a = a + 1 else notice " vvmt31w.dll Does not exist in  ";lbpath$;"  - aborting mission":  wait
   #lablog," all support files dll's sll's lbrun2.exe, and lbasic.exe accounted for "
-' all needed files accounted for
+' all runtime support files accounted for
 
 'prompt user for a password to start the created EXE File
    if p=0 then [filediag]
@@ -1847,7 +1843,7 @@ print "tkn verified saved to new project dir"
 #lablog, "checking for existing";DestPath1$;"\TKN\"; fnamenobas$;fixeddate$;".tkn"
  if fileExists (DefaultDir$;"\TKN", fnamenobas$;fixeddate$;".tkn") <> 0 then kill DefaultDir$;"\TKN\";fnamenobas$;fixeddate$;".tkn"
 
-'let lb cool off for a second just to be nice :D
+'let liberty basic cool off for a second just to be nice :D
 call pause 500
 
 'copy TKN$ file to TKN dir, and date it
@@ -1984,7 +1980,7 @@ res=fileExists("c:\windows\system32","iexpress.exe")
     print "verifying SED file was created"
  #lablog, "verifying SED file was created"
  do
- res = fileExists(DestPath$,fnamenobas$;".sed")
+     res = fileExists(DestPath$,fnamenobas$;".sed")
   if res then exit do
    scan
  loop until res
@@ -2051,23 +2047,23 @@ print "@ [verifyEXE] entering verification loop"
 'keep autosave vbs script if user chose to
  res = fileExists(DefaultDir$, autoSave$)
    if res and sed = 1 then
-  print "copying autoSave.vbs (if user chose to keep) to VBS dir"
- #lablog, "copying ";autoSave$;" to";DefaultDir$;"\VBS dir"
+      print "copying autoSave.vbs (if user chose to keep) to VBS dir"
+      #lablog, "copying ";autoSave$;" to";DefaultDir$;"\VBS dir"
       open autoSave$ for input as #file
-            open DestPath$;"\VBS\";autoSave$ for output as #1
-             print #1, input$(#file, lof(#file));
-              close #file
-               close #1
+       open DestPath$;"\VBS\";autoSave$ for output as #1
+        print #1, input$(#file, lof(#file));
+        close #file
+       close #1
    end if
 
-    print DefaultDir$;"\EXE\";exe$;"  was created sucessfully"
-   #lablog, DefaultDir$;"\EXE\";exe$;"  was created sucessfully"
-    print "renaming EXE\ ";fnamenobas$;" to ";fnamenobas$;fixeddate$;".exe"
-   #lablog, "renaming EXE\ ";fnamenobas$;" to ";fnamenobas$;fixeddate$;".exe"
+ print DefaultDir$;"\EXE\";exe$;"  was created sucessfully"
+ #lablog, DefaultDir$;"\EXE\";exe$;"  was created sucessfully"
+  print "renaming EXE\ ";fnamenobas$;" to ";fnamenobas$;fixeddate$;".exe"
+ #lablog, "renaming EXE\ ";fnamenobas$;" to ";fnamenobas$;fixeddate$;".exe"
   if fileExists(DefaultDir$;"\EXE", fnamenobas$;".exe") = 0 then
-                notice fnamenobas$;".exe";" was Not created in  ";DefaultDir$;"\EXE"
-     else
-     if fileExists(DefaultDir$;"\EXE", fnamenobas$;".exe") <> 0 then
+          notice fnamenobas$;".exe";" was Not created in  ";DefaultDir$;"\EXE"
+  else
+         if fileExists(DefaultDir$;"\EXE", fnamenobas$;".exe") <> 0 then
              name DefaultDir$;"\EXE\";fnamenobas$;".exe" as DefaultDir$;"\EXE\";fnamenobas$;fixeddate$;".exe"
               if tkn = 0 or tkn = 1 then
                     tkn = 3
@@ -2077,17 +2073,17 @@ print "@ [verifyEXE] entering verification loop"
                     categorie$ = programs$
                      goto [continue]
               end if
-      end if
+        end if
   end if
 
 [done]
   print "@ - [done] - !SUCCESSFUL MISSION! NO ERRORS"
   #lablog, "@ - [done] - !SUCCESSFUL MISSION! NO ERRORS"
- yeserror = 0
+   yeserror = 0
  if spritecreated = 1 then run DefaultDir$;"\SpriteCreator v2\SpriteCreator.exe"
- spritecreated = 0
- cursor normal
-wait
+  spritecreated = 0
+  cursor normal
+ wait
 
 'close bas2exe window
 [quit.pick]
@@ -2141,7 +2137,7 @@ cursor hourglass
   print "deleting current project dir and files(copied bas file, tkn file, sll,dll, lbrun2.exe(renamed file) if user chose to not include this project dir"
  #lablog, "deleting current project dir and files(copied bas file, tkn file, sll,dll, lbrun2.exe(renamed file) if user chose to not include this project dir"
           if spritecreator = 1 then [done]
-  if project = 0 then'and remove = 1 then
+  if project = 0 then
           if fileExists(DestPath1$, "vbas31w.sll") <> 0 then kill DestPath1$;"\";"vbas31w.sll"
           if fileExists(DestPath1$, "voflr31w.sll") <> 0 then kill DestPath1$;"\";"voflr31w.sll"
           if fileExists(DestPath1$, "vthk31w.dll") <> 0 then kill DestPath1$;"\";"vthk31w.dll"
@@ -2215,7 +2211,6 @@ function FolderDialog$(caption$)
      #folderdlg.C, "!font Arial 10 bold"
      #folderdlg.D, "!font Arial 8 bold"
       #folderdlg.text, "!font Arial 10 bold"
-
  wait
 [FolderDlgSelect]
     #folderdlg.list, "selection? temp$"
@@ -2226,7 +2221,7 @@ function FolderDialog$(caption$)
          gosub [FolderDlgGetDir]
         #folderdlg.list, "reload"
     end if
-wait
+ wait
 [FolderDlgBack]
     if level > 0 then
         level = level-1
@@ -2244,7 +2239,7 @@ wait
         #folderdlg.text, folder$
         #folderdlg.list, "reload"
     end if
-wait
+ wait
 [FolderDlgGetDrives]
     c = 1
     while word$(Drives$, c) <> ""
@@ -2254,7 +2249,7 @@ wait
     for i = 1 to c
     FolderList$(i) = word$(Drives$, i)
     next i
-return
+ return
 [FolderDlgGetDir]
     files folder$, info$(
     s = val(info$(0,0))
@@ -2263,7 +2258,7 @@ return
     for i = 1 to t
      FolderList$(i) = info$(i+s, 1)
     next i
-return
+ return
 [FolderDlgOk]
     #folderdlg.text, "!contents? FolderDialog$"
     If right$(FolderDialog$,1) = "\" then FolderDialog$ = left$(FolderDialog$, len(FolderDialog$) - 1)
@@ -2301,17 +2296,17 @@ sub fixdate
      #main.tb "!setfocus"
      #main.tb "!contents? searchFor$"
         searchFor$=trim$(searchFor$)
-        if len(searchFor$)>2 then
-         cursor hourglass
-          redim searchList$(1000)
-          for i = 1 to 1000 ' so so
+  if len(searchFor$)>2 then
+            cursor hourglass
+             redim searchList$(1000)
+              for i = 1 to 1000 ' so so
                 if helpList$(i)="" then
-                result$ = "yes"
-                #main.tb "!setfocus" : exit for
+                  result$ = "yes"
+                  #main.tb "!setfocus" : exit for
                 end if
-                fileToOpen$=  word$(helpList$(i),2,chr$(0))
-                 print helpFilePath$; "      "; fileToOpen$
-                 open helpFilePath$; "\"; fileToOpen$ for input as #2
+                  fileToOpen$=  word$(helpList$(i),2,chr$(0))
+                   print helpFilePath$; "      "; fileToOpen$
+                   open helpFilePath$; "\"; fileToOpen$ for input as #2
                     contents$ = input$(#2, lof(#2))
                     if instr(lower$(contents$), lower$(searchFor$)) then
                         count=count+1
@@ -2321,44 +2316,44 @@ sub fixdate
          next i
               if count = 0 then prompt "No Entries Found for " + chr$(13) + searchFor$ + "       TRY AGAIN?" ; result$
                 sort searchList$(), 0, count
-             #main.listbox2 "reload"
-         cursor normal
+              #main.listbox2 "reload"
+              cursor normal
         else
-        result$ = "yes"
-         prompt "                3 Character Minimum"+chr$(13) +"                          TRY  AGAIN?";result$
+            result$ = "yes"
+            prompt "                3 Character Minimum"+chr$(13) +"                          TRY  AGAIN?";result$
         end if
      end select
-    end sub
+ end sub
 'cundo's  jbsearch code
 'subroutine to open selected search item in a browser (htmlviewer if exists\default if not)
     sub lbDoubleClick h2$
     #lablog,"entering - sub lbDoubleClick h2$"
         #h2$ "selection? selection$"
-        if selection$ = "" then exit sub
+     if selection$ = "" then exit sub
         fileToOpen$= word$( selection$,2,chr$(0))
         fileToOpen$=replace$( fileToOpen$ , "/", "\" )
-       if fileExists(DefaultDir$, "htmlviewer.exe")  <> 0 then
-       print "fileToOpen$ = ";helpFilePath$;"\";fileToOpen$ 'for testing with mainwin
-       run "htmlviewer.exe ";helpFilePath$;"\";fileToOpen$
-        else
-        run "explorer.exe ";helpFilePath$;"\";fileToOpen$
-       end if
+    if fileExists(DefaultDir$, "htmlviewer.exe")  <> 0 then
+           print "fileToOpen$ = ";helpFilePath$;"\";fileToOpen$ 'for testing with mainwin
+           run "htmlviewer.exe ";helpFilePath$;"\";fileToOpen$
+    else
+           run "explorer.exe ";helpFilePath$;"\";fileToOpen$
+    end if
  end sub
 
  function replace$( text$ , this$, tothis$ )
 #lablog,"entering function replace$( text$ , this$, tothis$ )"
-     while 1
+  while 1
         if instr(text$, this$) then
             f = instr(text$, this$)
             lenght=len(this$)
             text$ = mid$(text$,1,f-1);_
                 tothis$;mid$(text$,f+lenght)
-            else
+       else
              exit while
-        end if
-      wend
+       end if
+  wend
      replace$=text$
-  end function
+ end function
 
   sub combosub
  #lablog,"entering sub combosub"
@@ -2390,37 +2385,37 @@ sub dummy fast$
         includeButton$= "button ";txt$;".button1 ";chr$(34);_
          "&Exit";chr$(34);", "; itag$;"quit";otag$;", ul, 1, 1, 100, 30"
     end if
-         toPrint$ = "WindowWidth = 640 : WindowHeight = 480";chr$(13);_
-        "UpperLeftX=int((DisplayWidth-WindowWidth)/2)";chr$(13);_
-        "UpperLeftY=int((DisplayHeight-WindowHeight)/2)";chr$(13);chr$(13);_
-         includeButton$;chr$(13);chr$(13);_
-        "Open ";chr$(34);theName$;chr$(34);" for ";sel$; " as ";txt$;chr$(13);_
-        " ";txt$;" "; chr$(34); "trapclose ";itag$;"quit";otag$; chr$(34);chr$(13);_
-        "wait";chr$(13);chr$(13);_
-        closingCode$
-        #main.ed "!cls"
-        #main.ed toPrint$
-        print "finished creating fastcode"
-        #lablog, "finished creating fastcode"
-      #main.ed "!selectall"
-        #main.ed "!copy"
-        #main.ed "!paste"
-      #main.ed "!origin 0 0"
+   toPrint$ = "WindowWidth = 640 : WindowHeight = 480";chr$(13);_
+   "UpperLeftX=int((DisplayWidth-WindowWidth)/2)";chr$(13);_
+   "UpperLeftY=int((DisplayHeight-WindowHeight)/2)";chr$(13);chr$(13);_
+    includeButton$;chr$(13);chr$(13);_
+    "Open ";chr$(34);theName$;chr$(34);" for ";sel$; " as ";txt$;chr$(13);_
+    " ";txt$;" "; chr$(34); "trapclose ";itag$;"quit";otag$; chr$(34);chr$(13);_
+    "wait";chr$(13);chr$(13);_
+     closingCode$
+     #main.ed "!cls"
+     #main.ed toPrint$
+     print "finished creating fastcode"
+     #lablog, "finished creating fastcode"
+     #main.ed "!selectall"
+     #main.ed "!copy"
+     #main.ed "!paste"
+     #main.ed "!origin 0 0"
  end select
-end sub
+ end sub
 
 'xxgeek's code
 'quit program, save the current selected List first, and kill all htmlviewer
 'windows if User chose to as well
 [quit.main]
 #lablog,"@ - [quit.main] calling saveValue, closing htmlviewers(if user chose to), calling cleanup, closing program"
- call saveValue
+   call saveValue
   print "closehtml -quit.main =  ";closehtml
  if closehtml <> 0 then run "taskkill /IM htmlviewer.exe   /F", HIDE
- call cleanup
+   call cleanup
  if lablogIsOpen = 1 then close #lablog
-     close #main
-    end
+  close #main
+ end
 
 'sub to  create pauses in program
 sub pause mil
@@ -2511,33 +2506,33 @@ sub collectGarbage
 end sub
 
 #lablog,"entering sub  collectGarbage"
-sub setValueByName key$, value$
+ sub setValueByName key$, value$
   dictionary$ = chr$(134);chr$(165);chr$(134);"key";chr$(134);chr$(165);chr$(134);key$;chr$(134);chr$(165);chr$(134);"value";chr$(134);chr$(165);chr$(134)+value$+dictionary$
-end sub
+ end sub
 
 'function to get info from selected Listing
-function getValue$(key$)
-print "Entering function getValue(key$......)"
+ function getValue$(key$)
+   print "Entering function getValue(key$......)"
 #lablog, "Entering function getValue(key$......)"
   getValue$ = chr$(0)
   keyPosition = instr(dictionary$, chr$(134);chr$(165);chr$(134);"key";chr$(134);chr$(165);chr$(134)+key$+chr$(134);chr$(165);chr$(134);"value";chr$(134);chr$(165);chr$(134))
   if keyPosition > 0 then
-    keyPosition = keyPosition + 9  'skip over key tag
-    valuePosition = instr(dictionary$, chr$(134);chr$(165);chr$(134);"value";chr$(134);chr$(165);chr$(134),  keyPosition)
-    if valuePosition > 0 then
-      valuePosition = valuePosition + 11   'skip over value tag
-      endPosition = instr(dictionary$, chr$(134);chr$(165);chr$(134);"key";chr$(134);chr$(165);chr$(134), valuePosition)
-      if endPosition > 0 then
+       keyPosition = keyPosition + 9  'skip over key tag
+       valuePosition = instr(dictionary$, chr$(134);chr$(165);chr$(134);"value";chr$(134);chr$(165);chr$(134),  keyPosition)
+      if valuePosition > 0 then
+        valuePosition = valuePosition + 11   'skip over value tag
+        endPosition = instr(dictionary$, chr$(134);chr$(165);chr$(134);"key";chr$(134);chr$(165);chr$(134), valuePosition)
+       if endPosition > 0 then
         getValue$ = mid$(dictionary$, valuePosition, endPosition - valuePosition)
-      else
+       else
         getValue$ = mid$(dictionary$, valuePosition)
-      end if
+       end if
     end if
   end if
 end function
 
 'sub to load selected categorie List
-sub loadKeys
+ sub loadKeys
 #lablog, "Entering sub loadKeys........."
     keyList$ = getKeys$(chr$(134);chr$(165);chr$(134))
     redim keys$(keyCount)
@@ -2546,10 +2541,10 @@ sub loadKeys
     next item
     sort keys$(), 0 ,keyCount
   #main.keys "reload"
-end sub
+ end sub
 'xxgeek code
 'function to make custom messages
-function GetMessage$(message$)
+ function GetMessage$(message$)
 #lablog, "Entering function GetMessage$(message$)......."
     WindowWidth = 520 :  WindowHeight = 740
     UpperLeftX=INT((DisplayWidth-WindowWidth)/2)
@@ -2574,17 +2569,17 @@ function GetMessage$(message$)
 end function
 
 'function to separate filename from full path to file
-function GetFilename$(fileName$)
+ function GetFilename$(fileName$)
 #lablog, "Entering function GetFilename$(fileName$)......."
     i = len(fileName$)
     while mid$(fileName$, i, 1) <> "\" and mid$(fileName$, i, 1) <> ""
         i = i-1
     wend
     GetFilename$ = mid$(fileName$, i+1)
-end function
+ end function
 
 'function for making of popup menus (jb code from functions examples)
-function PopupMenu$(options$, width, bgColor$, textColor$, selBackColor$, selTextColor$)
+ function PopupMenu$(options$, width, bgColor$, textColor$, selBackColor$, selTextColor$)
 #lablog, "Entering function PopupMenu$(etcetera......."
     'arguments:
     'options$ - comma-separated list of menu options
@@ -2652,8 +2647,8 @@ function PopupMenu$(options$, width, bgColor$, textColor$, selBackColor$, selTex
     end function
 
 'lb progress bar - Edited by xxgeek to suit this app
-sub progressBar
-cursor hourglass
+ sub progressBar
+  cursor hourglass
 #lablog, "Entering sub progressBar........."
 [launch]
      WindowWidth = 500
@@ -2695,13 +2690,13 @@ cursor hourglass
           #ready, "trapclose [endprogress]"
           #ready.text, "!font arial 10 bold"
           exit sub
-       end if
+  end if
        if pnum = 5 then
            #ready.text, "       Ready"
             for readymessage = 1 to 1000000
             next readymessage
           close #ready
-         end if
+      end if
  [endprogress]
   cursor normal
 end sub

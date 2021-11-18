@@ -118,7 +118,7 @@ alt Y > Opens Selected Item for Edit in Liberty Basic IDE
 
 alt - > Opens as if [Re-Make Project] was pressed
 alt shift _ > Opens the MS Windows TaskManager(unless a runtime error occurs)
-
+alt x    > clears all logs
 
 Also, almost forgot. Whenever any automation occurs, backups(dated) are created of the selected .bas file, the TKN file and the EXE file in Separate folders. Browse your DefaultDir$ to view them. Whenever a Listing is deleted,  a backup is made of the corresponding categorie file. It is there in case you need it, but is overwrtten on the next deleted Listing
 

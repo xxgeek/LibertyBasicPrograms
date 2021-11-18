@@ -1043,9 +1043,9 @@ if lablogIsOpen = 1 then close #lablog
 lablog$ = "lablog.log"
 runtimeErrorLog$ = "error.log"
 lbHelpLabErrorLog$ = "lbHelpLabError.log"
-if fileExists(DefaultDir$, lablog$) then kill DefaultDir$;"\";lablog$
-if fileExists(DefaultDir$, lbHelpLabErrorLog$) then kill DefaultDir$;"\";lbHelpLabErrorLog$
-if fileExists(DefaultDir$, runtimeErrorLog$) then kill DefaultDir$;"\";runtimeErrorLog$
+if fileExists(DefaultDir$, lablog$) <> 0 then kill DefaultDir$;"\";lablog$
+if fileExists(DefaultDir$, lbHelpLabErrorLog$) <> 0 then kill DefaultDir$;"\";lbHelpLabErrorLog$
+if fileExists(DefaultDir$, runtimeErrorLog$) <> 0 then kill DefaultDir$;"\";runtimeErrorLog$
 open lablog$ for append as #lablog
 #lablog, "@ [clearLogs] -  #lablog closed temporarily while clearing all logs by deletion"
 #lablog, "lablog re-opened > Logs Cleared"

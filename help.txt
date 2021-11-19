@@ -1,7 +1,7 @@
 
-This is a short abbreviated help for now. Working on a better solutionfor version 2.
+This is a short abbreviated help for now. Working on a better solution for version 2.
 
-Basically there are 5 areas. Top Left, Top Middle, Top Right, Bottom left, Bottom Middle, Bottom, Left.
+Basically there are 6 areas. Top Left, Top Middle, Top Right, Bottom left, Bottom Middle, Bottom, Left.
 
 ##########################     Top Left     #########################################
 Create Window Code
@@ -13,14 +13,19 @@ The code will appear in the texeditor, and will also be sent to the clipboard to
 For more robust code generation there is an added button to open the Liberty Basic FreeForm Editor. And in there you can create Forms and generate the code through the menu at the top of the page Output>
 
 
-#########################     Top Middle     ##########################################
+#########################     Top Middle     ########################################## 
+
+
 Search Liberty Basic 4.5.1 Help
-Originally jbsearch by cundo, created for Just Basic(the free version of Liberty) editted with extra features. The far left Listbox lists the different titles of the Help File for Liberty Basic. The other Listbox populates with the search results. Just type at least 3 characters for keyword(s) and hit the [Search in Liberty Help] button.(or use hotkey alt s). Focus defaults to the textbox where your keywords are typed, so you can start typing as soon as you get the [ready] popup on startup and alt s for a quick search.
+Originally jbsearch by cundo, created for Just Basic(the free version of Liberty) editted with extra features. The far left Listbox lists the different titles of the Help File for Liberty Basic. The other Listbox populates with the search results. Just type at least 3 characters for keyword(s) and hit the [Start Searching in Liberty Help] button.(or use hotkey alt s). Focus defaults to the textbox where your keywords are typed, so you can start typing as soon as you get the [ready] popup on startup and alt s for a quick search.
 
-Selecting either a Help Title, or a Help Search result will open a page in your browser. I highly recommend the htmlviewer.exe packaged with this app. If you are waery of exe files(and who can blame you), you can download it here at https://www.softpedia.com/get/Internet/Offline-Browsers/Offline-HTML-Viewer.shtml   <<<Make sure>>> you rename it to htmlviewer.exe, because that is the name of the one downloaded for this app and this app will be looking for that name.
+##############  htmlviewer (help file viewwer) ###############
+
+Selecting either a Help Title, or a Help Search result will open a page in your browser. I highly recommend the htmlviewer.exe packaged with this app. If you are weary of exe files(and who can blame you), you can download it here at https://www.softpedia.com/get/Internet/Offline-Browsers/Offline-HTML-Viewer.shtml   <<<Make sure>>> you rename it to htmlviewer.exe, because that is the name of the one downloaded for this app and this app will be looking for that name.
 
 
-############################    Top Left   ##########################################
+
+############################    Top right   ##########################################
 
 Create With
  Buttons that open some apps to create your own files for use with Liberty Basic. Pretty much self explaining.
@@ -30,10 +35,10 @@ Tools
 
 BAS<2>EXE
 WARNING - Make sure there are no spaces in your filename(.bas source file) before trying to make the EXE. This issue will be fixed in version 2
- - When this button is pressed, it assumes you have already selected Radio Button Programs. Will prompt if you have another Radio Buttun selected to change to Programs.  Once that is settled, it asks the user to select a working .bas file then opens th fileDialog goes on to create the EXE file (Using IEXPRESS a built in Microsoft attempt at an installer)
 
- In the process of making the EXE file, before IEXPRESS gets involved, the Runtime files need to be put in a folder, along with the users selected bas file, and the tkn file created along the way. And the run451.exe file needs to be renamed to the users selected .bas source file. Since these actions need to be taken to get to where we ned to be regarding the EXE file creation, we might as well use them to our advantage, and Keep them, Run them, or Edit them. You'll notice Buttons with those words
-on them, and when you use BAS<2>EXE you will see an option to Keep Project(checkbox). You may not wish to keep the whole folder of runtime files for every EXE you make. 
+ - When this button is pressed, it assumes you have already selected Radio Button Programs. Will prompt if you have another Radio Buttun selected to change to Programs.  Once that is settled, it asks the user to select a working .bas file then opens th fileDialog and goes on to create the EXE file (Using IEXPRESS a built in Microsoft attempt at an installer)
+
+ In the process of making the EXE file, before IEXPRESS gets involved, the Runtime files need to be put in a folder, along with the users selected bas file, and the tkn file created along the way. And the run451.exe file needs to be renamed to the users selected .bas source file. Since these actions need to be taken to get to where we need to be regarding the EXE file creation, we might as well use them to our advantage, and Keep them, Run them, or Edit them. You'll notice Buttons with those words on them, and when you use BAS<2>EXE you will see an option to Keep Project(checkbox). You may not wish to keep the whole folder of runtime files for every EXE or tkn you make(but NOT keeping them means you can't run them using the selected Listing, although you can still edit the code in LB or Notepad as "untitled" and save it to make the tkn, exe or project later). 
 
 You will also see options to make 64bit or 32 bit EXE's(whether these actally make 64 bit exe's I don't know, but the paper work says they do). You can also put a password on the EXE file, so it can only be opened if the password is known. SED files and VBS scripts can also be kept (checkboxes). SED files are the information files IEXPRESS needs to make the EXE file. SED (SELF EXTRACTING DIRECTIVE) VBS (VISUAL BASIC SCRIPT)
 
@@ -45,9 +50,12 @@ Pretty much the same goes for BAS<2>TKN except no EXE is created with IEXPRESS
 Slight issue
 Sometimes, although they are all set to SingleClick, you may have to double click to have a selection register, and show the code in the texteditor, or when pressing either BAS<2>EXE or BAS<2>TKN. You'll be prompted if this happens (just make sure you see the text(code) in the texeditor before pressing those two buttons to avoid the annoying notice.
 
-There are some log buttons too. The most robust is the lablog. It is opened at startup and appended as this app progresses through the code. If errors do occurr, this file can tell you very quickly where the code stopped, and the cleanup began.
+There are some log buttons too. The most robust is the lablog. It is opened at startup and appended as this app progreses through the code. If errors do occurr, this file can tell you very quickly where the code stopped, and the cleanup began.
 
-#######################  Bottom Left  and Bottom Middle ##############################################
+
+#######################  Bottom Left and Bottom Middle ##################################
+
+
 This is based on Carl Gundels Dictionary code.
 Using the base code to generate multi Lists was about the hardest part of creating this app. I had to read and understand every line, every command, and every which way the code was going. It was what helped me most in Learning to code in Just Basic. It uses many features of the language.
 
@@ -56,9 +64,11 @@ When you Run BAS<2>EXE or BAS<2>TKN you will see New Listings appear automatical
 
 MyProjects is "Special". When you use [Make New Project] it does about th same as BAS<2>EXE or BAS<2>TKN with an exception....You can Re-Make it. When [Re-Make Selected] is pressed the app looks in your savedProjects Folder for the .bas file used, and reuses this one instead of the original. If you edit this one(whether in [Edit Selected in Liberty Basic], or [Edit Selected in Notepad] or any other editor for that matter, and you save it, you can Re-Make the Project with one click on Re-Make selected. You won't see much more than a flash, but it will be Remade. When you have your final copy you can make the EXE file.(or at anytime you feel th need.)
 
+Edit Nov 19 2021 
 Programs Radio Button also has this feature to Re-Make as of today. If there is no Project folder with a .bas source file to work with, you will be prompted to open in notepad as "untitled" the code in the texteditor.
 
-###############################     Bottom Left     ##########################################
+
+###############################     Bottom Right     ##########################################
 
 
 5 Drop Down Combo Boxes.
@@ -69,16 +79,18 @@ When selected, they open up in the Liberty Basic IDE for editing.
 
 LB Bak(up) files same as Samples.
 
-LB Dialogs is a list of the built in Dialogs ou can use in your programs.
+LB Dialogs is a list of the built in Dialogs you can use in your programs.
 Clicking on one will open it in your browser(it is one of the Liberty Basic HTML Help files), or if you downloaded htmlviewer it will open in that browser by default. very fast, and doesn't go online(wasn't built for online, so it opens instantly. The window for htmlviewer can be re-sized to a sliver and when closed will remember it's place, and it's re- sized dimensions.(Last window closed becomes the re-size) be forewarned.
 
 Reserved Words.
 Reserved Words are all the words you CANNOT use in your programs as variables. They are basically the command set of Liberty Basic. The List is just a quick resource, and clicking on one just highlights it.
 
 The Kill All Button.
-When it is prssed, it first does a cleanup of temp files, then closes all open htmlviewer.exe windows dispalying Liberty Basic Help files. Then it moves on to closes all liberty.exe files opened, and their child processes. Be wary of using this. Be sure you don't have unrelated Liberty basic window still opened before using it, and be sure to heed the "Are You Sure" prompt to save any work you have not saved. This uses taskkill( a MS Windows built in command line app to force kill the opened liberty.exe files. There is no mercy, they ALL die.
+When it is pressed, it first does a cleanup of temp files, then closes all open htmlviewer.exe windows displaying Liberty Basic Help files. Then it moves on to closes all liberty.exe files opened, and their child processes. Be wary of using this. Be sure you don't have unrelated Liberty Basic windows still opened before using it, and be sure to heed the "Are You Sure" prompt to save any work you have not saved. This uses taskkill( a MS Windows built in command line app to force kill the opened liberty.exe files. There is no mercy, they ALL die.
+
 
 ###############################  The Top Menu  #################################
+
 
 Pretty much the same entries as the visable ones. 
 No preferences page yet. But been working on it for almost a year, it's coming.
@@ -87,21 +99,23 @@ There is an about page.
 There is one other app in this menu .
 .bas Line Count. opens to a fileDialog to select a .bas file, and displays total line count - no# of lines with spaces - no# of lines with code.
 
+
 ###############################     Hotkeys     #####################################
 
+
 Lowercase, or Uppercase = Do the same thing as stated below
-alt a > opens Notepad
-alt b > when Programs Radio Buttun is Selected Opens BAS<2>EXE
-alt c > Opens Calculator
-alt d > When Any Radio Butun is Selected, and One of the Items in the list is Selected > Deletes Selected from the List
-alt e > Opens drop down menu at top of window > Edit
+alt A > opens Notepad
+alt B > when Programs Radio Buttun is Selected Opens BAS<2>EXE
+alt C > Opens Calculator
+alt D > When Any Radio Butun is Selected, and One of the Items in the list is Selected > Deletes Selected from the List
+alt E > Opens drop down menu at top of window > Edit
 
-alt f > Opens Liberty Basic FreeForm Editor
-alt g > Generates the Window code, and copies the code to ClipBoard and show the code in the texteditor
+alt F > Opens Liberty Basic FreeForm Editor
+alt G > Generates the Window code, and copies the code to ClipBoard and show the code in the texteditor
 
-alt h > Opens Liberty Basic Help in Browser (if htmlviewer.exe exists in DefaultDir$ it is used else Default Browser)
+alt H > Opens Liberty Basic Help in Browser (if htmlviewer.exe exists in DefaultDir$ it is used else Default Browser)
 
-alt i > If SpriteCreator v2 Folder exists in DefaultDir$ then Opens SpriteCreator
+alt I > If SpriteCreator v2 Folder exists in DefaultDir$ then Opens SpriteCreator
 alt K > same as Kill All Liberty Processes - Ends ALL Liberty Basic (liberty.exe)Instances, and All htmlviewer.exe instances - Warning - be careful - save work from any other unrelated liberty basic open in Liberty Basic IDE
  
 alt L > Opens Selected Item for Edit in Notepad
@@ -115,24 +129,19 @@ alt T > Opens BAS<2>TKN Window for file selection
 alt U > Opens Liberty Basic Tutorial
 alt V > Opens MS Voice Recorder
 alt Y > Opens Selected Item for Edit in Liberty Basic IDE
-
+alt x    > clears all logs
 alt - > Opens as if [Re-Make Project] was pressed
 alt shift _ > Opens the MS Windows TaskManager(unless a runtime error occurs)
-alt x    > clears all logs
 
 Also, almost forgot. Whenever any automation occurs, backups(dated) are created of the selected .bas file, the TKN file and the EXE file in Separate folders. Browse your DefaultDir$ to view them. Whenever a Listing is deleted,  a backup is made of the corresponding categorie file. It is there in case you need it, but is overwrtten on the next deleted Listing
 
-Also one caveat - 
-When an EXE file is created, it only includes all the Runtime files not any extra support file a user May have add. So the EXE file, when run, will error out if say, it's looking for one of the files a user added such as bmp files etc. Fixing this issue over the winter...
+One caveat - 
+When an EXE file is created, it only includes all the Runtime files not any extra support file a user May have added. So the EXE file, when run, will error out if say, it's looking for one of the files a user added such as bmp files, ini files or any folders etc. Fixing this issue over the winter...I think I have the logic figured out.
 
-Also, the created EXE files, > when Run, run from the Windows Temp dir, and get deleted when the EXE file is closed, or End 'd
-That is an IXEPRESS thing. I can't do anything about that. But I can copy it to a Dir on the users Home dir, and run it from there so any files created don't get deleted when closed or End 'd.
-I'll be working on that over the winter. Also I want to be able to add any support files to the EXE which the user adds to a project. Not easy, but is doable.
+The created EXE files, when Run, runs from the Windows Temp dir, and gets deleted when the EXE file is closed, or End 'd
+That is an IXEPRESS thing. I can't do anything about that. But for future I can copy it to a Dir on the users Home dir, and run it from there so any files created don't get deleted when closed or End 'd. I'll be working on that over the winter. Also I want to be able to add any support files to the EXE which the user adds to a project. Not easy, but is doable.
 
-Ok thats about it.
-
-Keep in mind sometimes you have to double click a Title in a Listing to see the text in the texeditor.
-And this oddity will also appear when Pressing BAS<2>EXE or BAS<2>TKN, so be sure to be on the Programs RadioButton, and that the text is visible in the texteditor when cliking either of these buttons.
+Keep in mind sometimes you have to double click a Title in a Listing to see the text in the texeditor. And this oddity will also appear when Pressing BAS<2>EXE or BAS<2>TKN, so be sure to be on the Programs RadioButton, and that the text is visible in the texteditor when cliking either of these buttons.
 
 One major issue.
 It's about Timing.
@@ -142,8 +151,8 @@ If anyone has a rock solid solution for this, please share.
 
 If the interest is there, or anywhere :D, I will make a second version, and populate it with everything I have written to date. Programs, Examples, Snippets, Fuctions, Subroutines, and Scripts.
 
-The BEST thing about this app is that the files it creates(I mean the files YOU create) can be swapped with other users, and added to their own. Everyone involved can have a huge reservoir of code to learn from, and play around with.
-The code examples from the code of this app(2600 + line) has many variations, and many different little snippets and examples to keep a person busy for a while, let alone what we can all share with each other in the forums. @ -   https://libertybasiccom.proboards.com/
+The BEST thing about this app is that the files it creates(I mean the files YOU create) can be swapped with other users, and added to their own. Everyone involved can have a huge reservoir of code to learn from, and play around with. I could add a button to make it easy for the user to synce the files.
+The code examples from the code of this app(2600 + lines) has many variations, and many different little snippets and examples to keep a person busy for a while, let alone what we can all share with each other in the forums. @ -   https://libertybasiccom.proboards.com/
 
 xxgeek, over and out.
 P.S. For now.

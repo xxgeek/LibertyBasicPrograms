@@ -57,7 +57,7 @@ if right$(FolderDialog$,1) = "\" then FolderDialog$ = left$(FolderDialog$, len(F
 
  [start]
  cursor hourglass
-'declare globals, and dim arrays for key$ and info$ 
+'declaring globals, and dim arrays for key$ and info$ 
     #lablog, " >>> declaring globals ........."
  global ,fixedtime$, fixeddate$, addfastfunction, selectedKey$, project, fnamenobas$, DestPath$, DestPath1$, FolderDialog$, pnum, fastfuncs$, lbexe$, lbpath$, spritecreated, lbReservedWords$, dictionary$, keyCount, q$, fileToCheck$, lastKey$, helpFilePath$, resetsearch, closehtml, categorie$, upath$, selectedpath$
   dim key$(1000)
@@ -295,6 +295,7 @@ nomainwin
         #main.deleteListing, "!hide"
         #main.remakeproject, "!font arial 10 bold"
         #main.makeproject, "!font arial 10 bold"
+        
 #lablog, "calling progressbar 0......."
   call progressBar
 'get users home dir path
@@ -330,6 +331,7 @@ nomainwin
      call progressBar
      #main.tb, "!setfocus"
      cursor normal
+     #lablog, "Start Up completed, waiting for user input"
   wait
 
 'Dictionary by Carl Gundel + edited by xxgeek
@@ -337,7 +339,7 @@ nomainwin
 call saveValue
 newKey$ = ""
 print "Creating new ";categorie$;" Listing"
-#lablog,"creating new ";categorie$;" Listing"
+#lablog,"@ [newKey] - creating new ";categorie$;" Listing"
       if len(left$(categorie$, (len(categorie$) - 1))) < 4 then [notPlural]
   prompt "Enter a Name (or Title) for the New " + left$(categorie$,(len(categorie$)-1)); newKey$
    if newKey$ <> "" then [continue] else wait
@@ -347,6 +349,7 @@ print "Creating new ";categorie$;" Listing"
       if newKey$ = "" then wait
 
 [continue]
+#lablog, "@ continue creating new ..";categorie$;" Listing >";newKey$
    if newKey$ <> "" then
         call setValueByName newKey$, ""
         call loadKeys
@@ -510,11 +513,10 @@ statictext #deleteKey.text, " Please wait - Deleting a listing can take some tim
       print "dontsave = ";line$
       print "word1$ = ";word1$
       print "line$ = ";line$
-       if line$ = "" then [dontSave]
       if line$ = word1$ then [dontSave]
       #2, line$
 [dontSave]
-#lablog, "deleting line ";line$;" and any empty lines "
+#lablog, "deleting line ";line$
  wend
      close #1
      close #2
@@ -617,6 +619,7 @@ wait
 [resetsearchclosehtml] closehtml = 0 : print "closehtml  [resetsearchclose] =  ";closehtml : wait
 
 [runtimeLog]
+#lablog, "@ [runtimeLog] - opening notepad to view error log......"
 if fileExists(DefaultDir$, "error.log") <> 0 then
  run "notepad ";q$;DefaultDir$;"\";"error.log";q$
 else
@@ -956,11 +959,12 @@ wait
  wait
 
 [defaultDir]
+#lablog, "Opening File Manager to : ";DefaultDir$
   run "explorer.exe ";q$;DefaultDir$;q$
  wait
 
 [about]
-#lablog "@- [about] ............"
+#lablog "@- [about] displaying about page............"
   message$ = chr$(13);"     LB Help Lab and Project Manager v1.0";_
   chr$(13);_
   chr$(13);_
@@ -1000,7 +1004,7 @@ wait
 
 [lberrorLog]
  lberrorlog$ = "error.log"
-#lablog "@- [lberrorLog]opening the lb error log ............"
+#lablog "@- [lberrorLog]opening the lb error log using notepad............"
     if fileExists(upath$;"\AppData\Roaming\Liberty Basic v4.5.1", lberrorlog$) then
 run "notepad ";q$;upath$;"\AppData\Roaming\Liberty Basic v4.5.1\error.log";q$
 else
@@ -1013,13 +1017,13 @@ else
 wait
 
 [helplaberrorLog]
-#lablog "@- [helplaberrorLog] - opening helplaberrorLog........"
+#lablog "@- [helplaberrorLog] - opening helplaberrorLog using notepad........"
  helplaberrorLog$ = "lbHelpLabError.log"
   run "notepad ";helplaberrorLog$
  wait
 
 [labLog]
-#lablog "@- [labLog] User clicked to open error log closing error log temporarily............"
+#lablog "@- [labLog] User clicked to open error log - closing error log temporarily............"
    close #lablog
     lablog$ = "lablog.log"
    run "notepad ";lablog$
@@ -1028,7 +1032,7 @@ wait
 
 [lbHelpLabHelp]
  help$ = "help.txt"
-#lablog "@- [lbHelpLabHelp] ............"
+#lablog "@- [lbHelpLabHelp] opening notepad to.....  "help$
    if fileExists(DefaultDir$, help$) then
        run "notepad ";help$
    else
@@ -1054,19 +1058,19 @@ wait
 
 'open Liberty Basic IDE
 [lbProgs]
-#lablog "@- [lbProgs] ............"
+#lablog "@- [lbProgs] opening Liberty Basic............"
   run lbpath$;"\";lbexe$
 wait
 
 'open mspaint for creating pictures (bmp, jpg, icons, etc)
 [pictures]
-#lablog "@- [pictures] ............"
+#lablog "@- [pictures] opening mspaint............"
   run "mspaint.exe"
 wait
 
 'Rod's SpriteCreator
 [sprites]
-#lablog "@- [sprites] ............"
+#lablog "@- [sprites] looking for spritecreator............"
  spriteEXEpath$ = DefaultDir$;"\SpriteCreator v2"
    if fileExists(spriteEXEpath$,"SpriteCreator.exe") <> 0 then
          run q$;spriteEXEpath$;"\";"SpriteCreator.exe";q$
@@ -1138,7 +1142,7 @@ sub lbsampleSelected lbsamplesList$
  end sub
 
  sub lbdialogSelected lbdialogsList$
-#lablog," entering sub lbdialogSelected lbdialogsList$"
+#lablog," entering sub lbdialogSelected lbdialogsList$......."
  q$ = chr$(34)
    call saveValue
 #main.lbdialogsList, "selection? lbdialog$"
@@ -1159,7 +1163,7 @@ if fileExists(DefaultDir$,"htmlviewer.exe") <> 0 then
  end sub
 
  sub lbreservedwordSelected lbreservedwordList$
-#lablog," entering sub lbreservedwordSelected lbreservedwordList$ "
+#lablog," entering sub lbreservedwordSelected lbreservedwordList$ ........."
    call saveValue
    #main.lbdialogsList, "selection? lbreserved$"
  end sub
@@ -1297,6 +1301,7 @@ end sub
      print "upath$ =  ";upath$ 'print for testing with mainwin
      close  #1
    cursor normal
+   #lablog, "Got user path - Exiting  sub getUserPath......"
  end sub
 
  'create a project and tkn file and add it to the MyProjects List
@@ -1380,6 +1385,7 @@ if tkn = 4 then print "@ [bas2exe] Starting to remake project ";selectedKey$;" R
     button #pick.32, "Cancel", [cancel],UL 320, 270, 135, 35
 
 'open the Window, and set some Fonts for each statictext, and buttons
+#lablog, "Opening Select File window........"
 open "BAS2EXE v1.8" for window_nf as #pick
  #pick, "trapclose [quit.pick]"
  #pick, "font Arial 10 bold"
@@ -1400,7 +1406,7 @@ open "BAS2EXE v1.8" for window_nf as #pick
  #pick.warning, "!font Arial 8 bold"
  #pick.default, "!setfocus"
   print "window up and running "
-
+#lablog, "Select File window opened......."
   #lablog$, "If tkn = 3 then BAS<2>EXE Button was pressed. Creating Make New Project Window"
    if tkn = 3 then
        #pick.temp, "!HIDE"
@@ -1605,7 +1611,7 @@ print "separating name from path, and name from extension"
  next var4
  var6 = abs(var6)
  fnamenobas$ = left$(fname0$, var5)
- #lablog, "fnamenobas$ = ";fnamenobas$
+  #lablog, "fnamenobas$ = ";fnamenobas$
  ' fname$ = Full Path of User Selected .bas file (including the filename.bas)
  ' fname0$ = Name of the Selected .bas File Only - eg ; filename.bas
  ' fnamenobas$ = Name of the Selected .bas File (without the .bas) - eg: filename
@@ -1628,6 +1634,7 @@ print "@ [begin] creating folders for projects, exe'e, sed's, vbs, and tkn files
   res= mkdir(DefaultDir$;"\";"VBS") ' saves VBS file (.vbs script that auto clicks `save tkn`, and `saved as` buttons)
 
 'make sure Folders were actually created
+#lablog, "Verifying new folders in ";DestPath$;" exist......"
  res=pathExists(DestPathU$)
    if res then a=a+1 else notice "savedProjects folder was NOT Created in ";DestPath$;"  - aborting mission":  wait
  res=pathExists(DestPath1$)
@@ -1732,6 +1739,7 @@ if fileExists(DestPath1$, runtimeSupportFile$) <> 0 then  [fileExists2]
 
 [verifyDLLs]
 'verify dll's and sll's were copied to temp folder
+#lablog, "@ -[verify DLLs] - verifying dll and sll files were copied to ....  ";DestPath1$
   res=fileExists(DestPath1$,"vbas31w.sll")
     if res then a = a + 1 else notice " vbas31w.sll Was not created in -->  ";DestPath1$;"  - aborting mission":  wait
     if res then a = a + 1 else notice " vgui31w.sll Was not created in -->  ";DestPath1$;"  - aborting mission":  wait
@@ -1876,8 +1884,8 @@ print "@ [continueOn] - tkn file verified dated and saved to TKN dir..........."
   end if
 
    if tkn = 3 then
-       print "sending to [newKey]/[continue] to add to ";categorie$;" List........"
- #lablog, "sending to [newKey]/[continue] to add to ";categorie$;" List........"
+       print "sending to [newKey]/[continue] to add to ";categorie$;" List........  ";programs$
+ #lablog, "sending to [newKey]/[continue] to add to ";categorie$;" List........  ";programs$
       newKey$ = fnamenobas$
       categorie$ = programs$
      goto [continue]
@@ -2035,8 +2043,8 @@ print "@ [verifyEXE] entering verification loop"
 ' copy SED script file to SED dir
   res = fileExists(DefaultDir$, fnamenobas$;".sed")
    if res and sed = 1 then
-  print "@ - [noiex] - copying SED script file to SED dir"
- #lablog, "@ - [noiex] - copying SED script file to SED dir"
+  print "@ - [noiex] - copying SED script file to SED dir if user chose to"
+ #lablog, "@ - [noiex] - copying SED script file to SED dir if user chose to"
       open fnamenobas$;".sed" for input as #file
             open DestPath$;"\SED\";fnamenobas$;fixeddate$;fixedtime$;".sed" for output as #1
              print #1, input$(#file, lof(#file));
@@ -2170,21 +2178,22 @@ cursor hourglass
  end sub
 
 'function for checking file existence
-  #lablog,"@ - fileExists(path$, filename$) function"
  function fileExists(path$, filename$)
+   #lablog,"@ - fileExists(path$, filename$) function"
   dim info$(0, 0)
   files path$, filename$, info$()
   fileExists = val(info$(0, 0)) 'non zero is true
    end function
 
 'function for checking folder existence
-  #lablog,"@ - function pathExists(path$) function"
  function pathExists(path$)
+   #lablog,"@ - function pathExists(path$) function"
   pathExists = (mkdir(path$)=183)
    end function
 
 'functions for making the folder dialog window
 function FolderDialog$(caption$)
+#lablog, "@ function FolderDialog$(caption)..........."
     WindowWidth = 600
     WindowHeight = 370
     UpperLeftX=INT((DisplayWidth-WindowWidth)/2)
@@ -2463,8 +2472,8 @@ function getKeys$(delimiter$)
 end function
 
 'sub to write each Listing to corresponding file
-#lablog,"entering sub writeDictionary"
 sub writeDictionary
+#lablog,"entering sub writeDictionary"
 print categorie$
   open categorie$ for output as #writeDict
     #writeDict, dictionary$
@@ -2505,8 +2514,8 @@ sub collectGarbage
   dictionary$ = newDictionary$
 end sub
 
-#lablog,"entering sub  collectGarbage"
  sub setValueByName key$, value$
+ #lablog,"entering sub  collectGarbage"
   dictionary$ = chr$(134);chr$(165);chr$(134);"key";chr$(134);chr$(165);chr$(134);key$;chr$(134);chr$(165);chr$(134);"value";chr$(134);chr$(165);chr$(134)+value$+dictionary$
  end sub
 

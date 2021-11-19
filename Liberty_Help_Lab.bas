@@ -91,8 +91,8 @@ if right$(FolderDialog$,1) = "\" then FolderDialog$ = left$(FolderDialog$, len(F
 
 'cundo's fastcode generator
 [fastcode]
-print "lb install path = ";q$;FolderDialog$;q$
-#lablog,"Got lb install path using FolderDialog function = ";FolderDialog$
+print "lb install path = ";lbpath$
+#lablog,"Got lb install path using FolderDialog function";lbpath$
 openhelp$ = lbpath$;"\lb4help\LibertyBASIC_4_web\amber_menu.htm"
     helpFilePath$ = lbpath$;"\lb4help\LibertyBASIC_4_web"
     helpFileMenu$ = "amber_menu.htm"

@@ -295,7 +295,7 @@ nomainwin
         #main.deleteListing, "!hide"
         #main.remakeproject, "!font arial 10 bold"
         #main.makeproject, "!font arial 10 bold"
-        
+
 #lablog, "calling progressbar 0......."
   call progressBar
 'get users home dir path
@@ -1032,7 +1032,7 @@ wait
 
 [lbHelpLabHelp]
  help$ = "help.txt"
-#lablog "@- [lbHelpLabHelp] opening notepad to.....  "help$
+#lablog "@- [lbHelpLabHelp] opening notepad to.....  ";help$
    if fileExists(DefaultDir$, help$) then
        run "notepad ";help$
    else

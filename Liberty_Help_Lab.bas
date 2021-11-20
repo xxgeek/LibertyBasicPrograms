@@ -2037,7 +2037,7 @@ print "@ [verifyEXE] entering verification loop"
 
 'The EXE file gets created partially and fools the verification - pause to allow time
 'for complete file creation - NOTE - This pause may need adjustment on YOUR PC
-   call pause 3500
+   call pause 4500
 
 [noiex]
 ' copy SED script file to SED dir

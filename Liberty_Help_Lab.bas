@@ -34,7 +34,8 @@
 'xxgeek code
  'check Liberty Basic v4.5.1 Default Install Dir for existence
 on error goto [errorReport]
-  open "lablog.log" for append as #lablog : lablogIsOpen = 1
+lablog$ = "lablog.log"
+  open lablog$ for append as #lablog : lablogIsOpen = 1
   #lablog, ""
    #lablog, ""
    #lablog, date$();"  ";time$()
@@ -42,9 +43,10 @@ on error goto [errorReport]
    #lablog, "Start Up  >>> declaring Liberty Basic install path ........."
  lbpath$ = "C:\Program Files (x86)\Liberty BASIC v4.5.1"
  #lablog, "Verifying Liberty Basic install path ........."
+
+ 'if Liberty Basic v4.5.1 is NOT installed to it's Default Install Dir, get Path from User using folder dialog
  res=pathExists(lbpath$)
-'if Liberty Basic v4.5.1 is NOT installed to it's Default Install Dir, get Path from User using folder dialog
-    if res then [start] else notice chr$(13)+" Liberty Basic v4.5.1 was not installed to the default install folder." +chr$(13)+"Hit [ok], then Select the Folder Liberty Basic v4.5.1 is Installed"
+     if res then [start] else notice chr$(13)+" Liberty Basic v4.5.1 was not installed to the default install folder." +chr$(13)+"Hit [ok], then Select the Folder Liberty Basic v4.5.1 is Installed"
 
 'if folder path chosen by user for Liberty Basic install is wrong catch error later with check for lbrun2.exe
 #lablog, " User Liberty Basic install path   >>>  not default >>>> opening FolderDialog........."
@@ -58,8 +60,8 @@ if right$(FolderDialog$,1) = "\" then FolderDialog$ = left$(FolderDialog$, len(F
  [start]
  cursor hourglass
 'declaring globals, and dim arrays for key$ and info$ 
-    #lablog, " >>> declaring globals ........."
- global ,fixedtime$, fixeddate$, addfastfunction, selectedKey$, project, fnamenobas$, DestPath$, DestPath1$, FolderDialog$, pnum, fastfuncs$, lbexe$, lbpath$, spritecreated, lbReservedWords$, dictionary$, keyCount, q$, fileToCheck$, lastKey$, helpFilePath$, resetsearch, closehtml, categorie$, upath$, selectedpath$
+    #lablog, " >>> declaring globals + dim arrays for key$, and info$........."
+ global fixedtime$, fixeddate$, selectedKey$, project, fnamenobas$, DestPath$, DestPath1$, FolderDialog$, pnum, lbexe$, lbpath$, spritecreated, lbReservedWords$, dictionary$, keyCount, q$, fileToCheck$, lastKey$, helpFilePath$, closehtml, categorie$, upath$, selectedpath$
   dim key$(1000)
   dim info$(500, 500)
 
@@ -88,6 +90,10 @@ if right$(FolderDialog$,1) = "\" then FolderDialog$ = left$(FolderDialog$, len(F
     help$ = "Help"
     subroutines$ = "Subroutines"
     functions$ = "Functions"
+    runtimeErrorLog$ = "error.log"
+    helplaberrorLog$ = "lbHelpLabError.log"
+    lberrorlogpath$  = "Application Data\Liberty Basic v4.5.1"
+    lberrorlog$ = "error.log"
 
 'cundo's fastcode generator
 [fastcode]
@@ -142,11 +148,11 @@ nomainwin
 'top menu
     menu #main, "File" , "Open a File in Liberty Basic v4.5.1", [openFile], "Exit", [quit.main]
     menu #main, "Edit"
-    menu #main, "View", "This Help Lab's Progress Log", [labLog], "Liberty Basic Error Log", [lberrorLog], "Runtime Error Log", [runtimeLog], "Help Lab Error Log", [helplaberrorLog]
-    menu #main, "Tools" , "BAS <2> EXE", [makeEXE], "BAS <2> TKN",  [bas2tkn], ".BAS Line Count", [numofLines], "MSPaint", [pictures], "Voice Recorder", [record], "Notepad", [openNotePad]
-    menu #main, "Options", "Preferences", [preferences]
-    menu #main, "Browse" , "My Projects", [projectsDir],"My EXE Files", [exeDir], "My TKN Files", [tknDir], "LB Example Files", [lbexamplesDir], "LB BMP Files", [bmpDir], "LB Sprite Files", [spritesDir]
-    menu #main, "Help" , "Help", [lbHelpLabHelp], "About", [about]
+    menu #main, "View", "LabLog (Progress Log)", [labLog], "Liberty Basic Error Log", [lberrorLog], "Runtime Error Log", [runtimeLog], "Help Lab Error Log", [helplaberrorLog], "System Information", [sysinfo]
+    menu #main, "Tools" , "BAS <2> EXE", [makeEXE], "BAS <2> TKN",  [bas2tkn], ".BAS Line Count", [numofLines], "Task Manager", [taskman], "Resource Monitor", [resmon], "MSPaint", [pictures], "Voice Recorder", [record], "Notepad", [openNotePad], "Character Map", [charmap]
+    menu #main, "Options", "Display Settings", [display], "Magnifier", [magnify], "Clear Logs", [clearLogs]
+    menu #main, "Browse" , "My Projects", [projectsDir],"My EXE Files", [exeDir], "My TKN Files", [tknDir], "DefaultDir$", [defaultDir], "LB Example Files", [lbexamplesDir], "LB BMP Files", [bmpDir], "LB Sprite Files", [spritesDir]
+    menu #main,  "Help" , "Liberty Basic Forums", [forumlink], "Help", [lbHelpLabHelp], "About", [about]
 'lbsearch by cundo
     listbox #main.listbox1, helpList$(, lbDoubleClick, 420, 80, 320, 282
     statictext  #main.searchtext, "Search For KeyWord(s)", 755, 40, 160, 20
@@ -223,29 +229,38 @@ nomainwin
    button #main.defaultDir, " DefaultDir$ ", [defaultDir], ul, 1220, 305, 120, 23
    button #main.examplesDir, " Examples Folder ", [lbexamplesDir], ul, 1220, 275, 120, 23
 'ascii chart combo box and static text
-   statictext  #main.asciitext, "ASCII Codes chr$()", 1220, 375, 125, 15
-   combobox #main.asciiList, asciiList$(), asciiSelected , 1215, 390, 125, 40
+   statictext  #main.asciitext, "ASCII Codes chr$()", 1220, 374, 125, 15
+   combobox #main.asciiList, asciiList$(), asciiSelected , 1215, 390, 130, 40
 'lb samples  to reserved words comboboxes and statictext
-   statictext  #main.lbsamplestext, "LB Examples", 1140, 420, 125, 15
+   statictext  #main.lbsamplestext, "LB Examples", 1140, 419, 125, 15
    combobox #main.lbsamplesList, lbsamplesList$(), lbsampleSelected , 1120, 435, 120, 25
-   statictext  #main.lbdialogstext, "LB Dialogs", 1255, 420, 100, 15
+   statictext  #main.lbdialogstext, "LB Dialogs", 1255, 419, 100, 15
    combobox #main.lbdialogsList, lbdialogsList$(), lbdialogSelected , 1245, 435, 100, 25
-   statictext  #main.reservedwordstext, "Reserved Words", 1130, 465, 120, 15
+   statictext  #main.reservedwordstext, "Reserved Words", 1130, 464, 120, 15
    combobox #main.lbreservedwordsList, lbreservedwordsList$(), lbreservedwordSelected , 1120, 480, 125, 25
 'lb bak(up) Files combobox and statictext
-   statictext  #main.lbbaktext, "LB BAK (UP) Files", 1095, 375, 120, 15
+   statictext  #main.lbbaktext, "LB BAK (UP) Files", 1095, 374, 120, 15
    combobox #main.lbbakfilesList, lbbakfilesList$(), lbbakfileSelected , 1090, 390, 120, 25
 'right side static text
    statictext  #main.creators, "Create With", 1160, 5, 160, 20
    statictext  #main.useful, "Useful Tools", 1095, 102, 160, 20
    statictext  #main.browse, "Browse", 1250, 100, 162, 20
    statictext  #main.choose, "Select  a Category >>  >>> ", 55, 395, 200, 20
-   statictext  #main.killtext, "Kill All LB Processes >", 1165, 665, 150, 20
-   statictext  #main.logsClear, "Clear all Logs >", 1205, 628, 110, 20
-   statictext  #main.lbforums, "Visit https://libertybasiccom.proboards.com/", 05, 700, 275, 25
-'kill all button
-   button #main.killAll, " &K ", [killAll], UL, 1315, 658, 30, 30
-   button #main.clearLogs, " &X ", [clearLogs], UL, 1315, 620, 30, 30
+   statictext  #main.killtext, "Kill All LB Processes >", 1165, 652, 150, 20
+   statictext  #main.logsClear, "Clear All Logs >", 1205, 625, 105, 20
+   statictext  #main.hex, "Hexidecimal", 1255, 510, 200, 15
+   statictext  #main.dec2bin, "Binary", 1275, 567, 80, 15
+   statictext  #main.dec, "Decimal", 1145, 520, 80, 15
+    textbox     #main.dec2h, 1120, 535, 90, 20
+    textbox     #main.hex2d, 1240, 525, 105, 20
+    textbox     #main.bin2d, 1240, 545, 105, 20
+    button #main.converter, "<&2>", [converter], UL, 1211, 535, 28, 20
+    button #main.conClear, "&0", [clearConverter], UL, 1218, 565, 20, 20
+'forums link
+     button #main.lbforums, "Visit the Liberty Basic Forums", [forumlink], UL, 1160, 690, 195, 17
+'kill all button, clear all logs button
+   button #main.killAll, " &K ", [killAll], UL, 1315, 653, 20, 15
+   button #main.clearLogs, " &X ", [clearLogs], UL, 1315, 625, 20, 15
 
 #lablog, "opening help lab window......."
  open "Liberty Basic v4.5.1 Help Lab and Project Organizer" for window as #main
@@ -295,6 +310,7 @@ nomainwin
         #main.deleteListing, "!hide"
         #main.remakeproject, "!font arial 10 bold"
         #main.makeproject, "!font arial 10 bold"
+        #main.conClear, "!font arial 12 bold"
 
 #lablog, "calling progressbar 0......."
   call progressBar
@@ -437,6 +453,7 @@ lb4tut$ = "new4features.lsn"
  wait
 
 [killAll]
+ #lablog, "@ - [killAll] - Prompting User, Are you sure?"
    answer$ = "YES"
    prompt "Shuting down ALL Liberty.exe Files "+chr$(13)+"Is Your Work Saved - ARE YOU SURE?";answer$
   if answer$ <> "YES" then wait
@@ -627,6 +644,46 @@ answer$ = "YES"
 prompt "No Runtime errors have occured yet"+chr$(13)+ "Was this Helpful?";answer$
 end if
 wait
+
+[converter]
+#lablog, "@ - [convertdec2hex]........"
+#main.dec2h "!contents? decVal";
+#main.hex2d "!contents? hexVal$";
+#main.bin2d "!contents? binVal";
+    if decVal = 0 and hexVal$ =  "" and binVal = 0 then wait
+    if decVal <> int(decVal) or left$((str$(decVal)),1) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : wait
+    if binVal <> int(binVal) or left$((str$(binVal)),1) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : wait
+    if hexVal$ <> int(val(hexVal$)) or left$((str$(binVal)),1 ) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : wait
+    if decVal <> 0 and hexVal$ <> "" or binVal <> 0 and hexVal$ <> "" then notice "Can't Convert - Try ONE value at a time"
+    if binVal <> 0 and decVal <> 0 then notice "Can't Convert - Try ONE value at a time"
+    if decVal <> 0 and hexVal$ = "" and binVal = 0 then
+        hex$ = dechex$(decVal)
+        #main.hex2d, hex$
+                     bin$ = Dec2Bin$(decVal)
+        #main.bin2d, bin$
+   end if
+  if decVal = 0 and hexVal$ <> "" and binVal = 0 then
+            dec = hexdec(hexVal$)
+            #main.dec2h, dec
+            #main.dec2h "!contents? decVal";
+           bin$ = Dec2Bin$(decVal)
+        #main.bin2d, bin$
+  end if
+  if decVal = 0 and hexVal$ = "" and binVal <> 0 then
+         decimal = dec(binVal)
+         #main.dec2h, decimal
+         #main.dec2h "!contents? decVal";
+        hex$ = dechex$(decVal)
+      #main.hex2d, hex$
+  end if
+ wait
+
+[clearConverter]
+#lablog, "@ - [clearConverter] = clearing Binary, Decimal, and Hexidecimal textboxes......"
+    #main.dec2h, ""
+    #main.bin2d, ""
+    #main.hex2d, ""
+ wait
 
 'radio button selections from MyProjects to Help
 [projs]
@@ -878,6 +935,36 @@ call saveValue
    #main.choose, "Select a  ";category$;" Topic"
    wait
 
+'open System Information
+[sysinfo]
+#lablog, "@ - [sysinfo]....."
+ run "cmd.exe /c msinfo32", HIDE
+wait
+
+'open Resource Monitor
+[resmon]
+#lablog, "@ - [resmon]...."
+run "cmd.exe /c resmon", HIDE
+wait
+
+'open charactermap
+[charmap]
+#lablog, "@ = [charmap]....."
+run "cmd.exe /c charmap", HIDE
+wait
+
+'Display Settings
+[display]
+#lablog, "@ - [display]......"
+run "cmd.exe /c desk.cpl", HIDE
+wait
+
+'open Magnifyier
+[magnify]
+#lablog, "@ - [magnify......"
+run "cmd.exe /c magnify", HIDE
+wait
+
 'open windows taskmanager (used to kill "non responsive" code (usually caught in loops)
 [taskman]
 #lablog "@- [taskman] ............"
@@ -894,6 +981,10 @@ wait
 [openNotePad]
 #lablog "@- [notepad] ............"
 run "notepad.exe"
+wait
+
+[forumlink]
+run "explorer.exe https://libertybasiccom.proboards.com/"
 wait
 
 'open Windows Voice recorder
@@ -1003,13 +1094,12 @@ wait
 wait
 
 [lberrorLog]
- lberrorlog$ = "error.log"
 #lablog "@- [lberrorLog]opening the lb error log using notepad............"
     if fileExists(upath$;"\AppData\Roaming\Liberty Basic v4.5.1", lberrorlog$) then
-run "notepad ";q$;upath$;"\AppData\Roaming\Liberty Basic v4.5.1\error.log";q$
+run "notepad ";q$;upath$;"\";lberrorlogpath$;"\";lberrorlog$;q$
 else
-      if fileExists(upath$;"\Application Data\Liberty Basic v4.5.1", lberrorlog$) then
-         run "notepad ";q$;upath$;"\Application Data\Liberty Basic v4.5.1\error.log";q$
+      if fileExists(upath$;"\";lberrorlogpath$, lberrorlog$) then
+         run "notepad ";q$;upath$;"\";lberrorlogpath$;"\";lberrorlog$;q$
       else
          notice "Can't find the LB error log"
       end if
@@ -1018,7 +1108,6 @@ wait
 
 [helplaberrorLog]
 #lablog "@- [helplaberrorLog] - opening helplaberrorLog using notepad........"
- helplaberrorLog$ = "lbHelpLabError.log"
   run "notepad ";helplaberrorLog$
  wait
 
@@ -1040,21 +1129,31 @@ wait
    end if
  wait
 
-'clear all logs pressed
+'clear all logs button pressed
 [clearLogs]
-print "@ [clearLogs] - closing #lablog temporarily, and clearing all logs by deletion"
-if lablogIsOpen = 1 then close #lablog
-lablog$ = "lablog.log"
-runtimeErrorLog$ = "error.log"
-lbHelpLabErrorLog$ = "lbHelpLabError.log"
-if fileExists(DefaultDir$, lablog$) <> 0 then kill DefaultDir$;"\";lablog$
-if fileExists(DefaultDir$, lbHelpLabErrorLog$) <> 0 then kill DefaultDir$;"\";lbHelpLabErrorLog$
-if fileExists(DefaultDir$, runtimeErrorLog$) <> 0 then kill DefaultDir$;"\";runtimeErrorLog$
-open lablog$ for append as #lablog
-#lablog, "@ [clearLogs] -  #lablog closed temporarily while clearing all logs by deletion"
-#lablog, "lablog re-opened > Logs Cleared"
-print "Logs Cleared"
-wait
+#lablog, "@ [clearLogs] - closing #lablog temporarily,  clearing lablog.log"
+print "@ [clearLogs] - closing #lablog temporarily, and clearing lablog.log"
+    if lablogIsOpen = 1 then
+          close #lablog
+          kill DefaultDir$;"\";lablog$
+          open lablog$ for append as #lablog
+        #lablog, chr$(13);"lablog Cleared - lablog re-opened > ";date$();" ";time$();chr$(13)
+   print "lablog cleared"
+    end if
+    if fileExists(upath$;"\Application Data\Liberty Basic v4.5.1", lberrorlog$) <> 0 then
+         kill upath$;"\Application Data\Liberty Basic v4.5.1\";"\";lberrorlog$
+        #lablog, "Liberty Basic Error Log Cleared  > ";date$();" ";time$()
+    end if
+    if fileExists(DefaultDir$, helplaberrorLog$) <> 0 then
+         kill DefaultDir$;"\";helplaberrorLog$
+         #lablog, "Help Lab ErrorLog Cleared > ";date$();" ";time$()
+    end if
+    if fileExists(DefaultDir$, runtimeErrorLog$) <> 0 then
+         kill DefaultDir$;"\";runtimeErrorLog$
+         #lablog, "Runtime Error Log Cleared > ";date$();" ";time$()
+    end if
+
+ wait
 
 'open Liberty Basic IDE
 [lbProgs]
@@ -1088,10 +1187,6 @@ wait
   res = fileExists(DefaultDir$, "SpriteCreator v2\SpriteCreator.bas")
 #lablog "if SpriteCreator .bas exists heading to [makeexe]............"
      if res then spritecreated = 1 : goto [makeEXE]
-
-[preferences]
-  confirm "No Preferences page yet"+chr$(13)+chr$(13)+"Was this helpful?";lol$
- wait
 
 ' a program to select a bas file to get it's Line count
 [numofLines]
@@ -2106,6 +2201,7 @@ wait
 wait
 
 sub cleanup
+#lablog, "Entering sub cleanup......"
 cursor hourglass
 'delete tempBas.bas
        print "deleting tempBas.bas..............."
@@ -2179,7 +2275,7 @@ cursor hourglass
 
 'function for checking file existence
  function fileExists(path$, filename$)
-   #lablog,"@ - fileExists(path$, filename$) function"
+   #lablog,"@ - function fileExists(path$, filename$) ......"
   dim info$(0, 0)
   files path$, filename$, info$()
   fileExists = val(info$(0, 0)) 'non zero is true
@@ -2587,73 +2683,31 @@ end function
     GetFilename$ = mid$(fileName$, i+1)
  end function
 
-'function for making of popup menus (jb code from functions examples)
- function PopupMenu$(options$, width, bgColor$, textColor$, selBackColor$, selTextColor$)
-#lablog, "Entering function PopupMenu$(etcetera......."
-    'arguments:
-    'options$ - comma-separated list of menu options
-    'width - window-width, default = 100
-    'bgColor$ - background color of the dialog
-    'textColor$ - color of inactive text
-    'selBackColor$ - backcolor of active, selected text
-    'selTextColor$ - color of active, selected text
-    'NOTE: colors are either a string of rgb values, one of the windows colours or
-        'empty string (use default colour scheme)
-    while word$(options$, count+1, ",") <> ""
-        count = count+1
-    wend
-    height = count*20+38
-    width = int(width) : if width < 100 then width = 100
-    if bgColor$ = "" then bgColor$ = "white"
-    if textColor$ = "" then textColor$ = "black"
-    if selBackColor$ = "" then selBackColor$ = "darkblue"
-    if selTextColor$ = "" then selTextColor$ = "white"
-    WindowHeight = height
-    WindowWidth = width
-    UpperLeftX = MouseX
-    UpperLeftY = MouseY
-    graphicbox #popup.graph, 0, 0, width, height
-    open title$ for dialog_modal_nf as #popup
-    #popup, "trapclose [popupDlgCancel]"
-    #popup, "font ms_sans_serif 16 9"
-    #popup.graph, "down; fill "; bgColor$
-    #popup.graph, "color "; textColor$; "; backcolor "; bgColor$
-    for i = 1 to count
-        #popup.graph, "place 4 "; i*20 - 2
-        #popup.graph, "\"; word$(options$, i, ",")
-    next i
-    #popup.graph, "flush"
-    #popup.graph, "when mouseMove [popupDlgMove]"
-    #popup.graph, "when leftButtonDown [popupDlgSelect]"
-    wait
+function dec(n)
+#lablog, "Entering function dec(n)......."
+if n <> int(n) or left$(str$(n,1 ) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : exit function
+    n$ = str$(n) : ln = len(n$) : exp = ln
+    for x = 1 to ln
+        exp = exp - 1 : dec = dec + (val(mid$(n$,x,1)) * (2 ^ exp))
+    next
+end function
 
-[popupDlgMove]
-    this = (MouseY-3)/20 : if this >= 0 then this = this + 1
-    this = int(this)
-    if this <> selection then
-        #popup.graph, "backcolor "; bgColor$; "; color "; bgColor$
-        #popup.graph, "place 2 "; selection*20 - 16; "; boxfilled "; width-12; " "; selection*20+2
-        #popup.graph, "color "; textColor$
-        #popup.graph, "place 4 "; selection*20 - 2
-        #popup.graph, "\"; word$(options$, selection, ",")
-        if this > 0 and this <= count then
-            #popup.graph, "backcolor "; selBackColor$; "; color "; selBackColor$
-            #popup.graph, "place 2 "; this*20 - 16; "; boxfilled "; width-12; " "; this*20+2
-            #popup.graph, "color "; selTextColor$
-            #popup.graph, "place 4 "; this*20 - 2
-            #popup.graph, "\"; word$(options$, this, ",")
-        end if
-        selection = this
+
+'function converts decimal value to binary
+function Dec2Bin$(decimal)
+#lablog, "Entering function Dec2Bin$(decimal)....."
+    'non-integers would not give the correct result
+    if decimal <> int(decimal) or left$(str$(decimal,1 ) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : exit function
+    if decimal = 0 then
+        Dec2Bin$ = "0"
+        else
+        while decimal > 0
+            Dec2Bin$ = str$(decimal and 1); Dec2Bin$ 
+            decimal = int(decimal/2)
+            scan
+        wend
     end if
-    wait
-[popupDlgSelect]
-    this = (MouseY-3)/20 : if this >= 0 then this = this + 1
-    this = int(this)
-    if this > count or this < 1 then wait
-    PopupMenu$ = word$(options$, this, ",")
-[popupDlgCancel]
-    close #popup
-    end function
+end function
 
 'lb progress bar - Edited by xxgeek to suit this app
  sub progressBar
@@ -2723,8 +2777,8 @@ end sub
     open "lbHelpLabError.log" for append as #1
      #1,  chr$(13);date$();" ";Time$();" Error # ";Err;"  ";Err$;chr$(13)
    close #1
- notice "Error # ";Err;"    ";Err$;chr$(13);chr$(13);" !  MISSION INTERUPTED  !  ";chr$(13);" !  ABORTTING MISSION  ! ";chr$(13);" >>> Cleaning up Temp Files...........";chr$(13);chr$(13);" See lbHelpLabError.log "
-
+ notice "Error # ";Err;"    ";Err$;chr$(13);chr$(13);" !  MISSION INTERUPTED  !  ";chr$(13);" !  ABORTTING MISSION  ! ";chr$(13);" >>> Cleaning up Temp Files...........";chr$(13);chr$(13);" See Runtime Error Log for Details ";chr$(13);chr$(13);" To Avoid Further Errors > Close & Restart  Help Lab"
+wait
 
 
 

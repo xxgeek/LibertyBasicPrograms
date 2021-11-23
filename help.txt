@@ -7,7 +7,9 @@ I'll deal with this soon
 
 Basically there are 6 areas. Top Left, Top Middle, Top Right, Bottom left, Bottom Middle, Bottom, Left.
 
+
 ########################## Top Left #########################################
+
 Create Window Code
 Fast Code generator by cundo at https://justbasiccom.proboards.com/
 @ - The Just Basic Forums.
@@ -21,15 +23,16 @@ For more robust code generation there is an added button to open the Liberty Bas
 
 
 Search Liberty Basic 4.5.1 Help
-Originally jbsearch by cundo, created for Just Basic(the free version of Liberty) editted with extra features. The far left Listbox lists the different titles of the Help File for Liberty Basic. The other Listbox populates with the search results. Just type at least 3 characters for keyword(s) and hit the [Start Searching in Liberty Help] button.(or use hotkey alt s). Focus defaults to the textbox where your keywords are typed, so you can start typing as soon as you get the [ready] popup on startup and alt s for a quick search.
+Originally named jbsearch by cundo, created for Just Basic(the free version of Liberty) editted with extra features. The far left Listbox lists the different titles of the Help File for Liberty Basic. The other Listbox populates with the search results. Just type at least 3 characters for keyword(s) and hit the [Start Searching in Liberty Help] button.(or use hotkey alt s). Focus defaults to the textbox where your keywords are typed, so you can start typing as soon as you get the [ready] popup on startup and alt s for a quick search.
 
 ############## htmlviewer (help file viewer) ###############
 
-Selecting either a Help Title, or a Help Search result will open a page in your browser. I highly recommend the htmlviewer.exe packaged with this app. If you are weary of exe files(and who can blame you), you can download it here at https://www.softpedia.com/get/Internet/Offline-Browsers/Offline-HTML-Viewer.shtml you rename it to htmlviewer.exe, because that is the name of the one downloaded for this app and this app will be looking for that name.
+Selecting either a Help Title, or a Help Search result will open a page in your browser. I highly recommend the htmlviewer.exe packaged with this app. If you are weary of exe files(and who can blame you), you can download it here at https://www.softpedia.com/get/Internet/Offline-Browsers/Offline-HTML-Viewer.shtml Rename it to htmlviewer.exe if the name is different-like(offlinehtmlviewer.exe), because that is the name of the one downloaded for this app and this app will be looking for that name. It is version 1.02.
 
 
 
 ############################ Top right ##########################################
+
 
 Create With
  Buttons that open some apps to create your own files for use with Liberty Basic. Pretty much self explaining.
@@ -108,8 +111,10 @@ Pretty much the same entries as the visible ones.
 No preferences page yet. But been working on it for almost a year, it's coming.
 There is an about page. 
 
+Most menu items speak for themselves. Some open Microsoft Windows apps and Control Panel items.
+
 There is one other app in this menu.
-.bas Line Count. Opens to a fileDialog to select a.bas file, and displays total line count - no# of lines with spaces - no# of lines with code.
+.bas Line Count. Opens to a fileDialog to select any .bas file, and displays the total line count - no# of lines with spaces - no# of lines with code.
 
 
 ############################### Hotkeys #####################################
@@ -148,6 +153,8 @@ alt 2 > Converts Dec to Bin, Bin to Dec, Dec to Hex, Hex to Dec, Hex to Bin, Bin
 alt 0 > Clears the Converter boxes.
 © 2021 GitHub, Inc.
 
+Things to know
+
 Whenever any automation occurs via Make Project, BAS<2>EXE or BAS<2>TKN, backups(dated) are created of the selected .bas file, the TKN file and the EXE file in Separate folders. Browse your DefaultDir$ to view them. Whenever a Listing is deleted, a backup is made of the corresponding categorie file. It is there in case you need it, but is overwritten on the next deleted Listing
 
 One caveat - 
@@ -167,11 +174,11 @@ If anyone has a rock solid solution for this, please share.
 If the interest is there, or anywhere :D, I will make a second version, and populate it with everything I have written to date. Programs, Examples, Snippets, Functions, Subroutines, and Scripts.
 
 The BEST thing about this app is that the files it creates(I mean the files YOU create) can be swapped with other users, and added to their own. Everyone involved can have a huge reservoir of code to learn from, and play around with. I could add a button to make it easy for the user to sync the files.
-The code examples from the code of this app(2600 + lines) has many variations, and many different little snippets and examples to keep a person busy for a while, let alone what we can all share with each other in the forums. @ - https://libertybasiccom.proboards.com/
+The code examples from the code of this app(2600 + lines) have many variations, and many different little snippets and examples to keep a person busy for a while, let alone what we can all share with each other in the forums. @ - https://libertybasiccom.proboards.com/
 
 Copy and Paste your heart out. You can use the Large texteditor (after clicking on any RadioButton, but before any Listing is selected), as a Space to edit code, or you can open Liberty Basic or Notepad to paste code to RUN.
- Theere is lots of code sitting around in the forums waiting to be used and enjoyed, and it doean't cost a cent. From Programs to Functions and Subroutine. From Graphical, Text Oriented, and 
-As time goes by, you will have an abundant supply of Snippets, Examples, Programs, and Scripts to work with. All at your finger tips.
+ Theere is lots of code sitting around in the forums waiting to be used and enjoyed, and it doean't cost a cent. From Programs to Functions and Subroutine. From Graphical, Text Oriented, and Code for operating external hardware through com ports, and joystick ports.
+As time goes by, you will have an abundant supply of Snippets, Examples, Programs, and Scripts to work with and share with peers. All at your finger tips.
 
 xxgeek, over and out.
 P.S. For now.

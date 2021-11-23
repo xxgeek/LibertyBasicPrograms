@@ -77,17 +77,25 @@ Programs Radio Button also has this feature to Re-Make as of today. If there is 
 
 5 Drop Down Combo Boxes.
 ASCII Codes, does nothing but give reference for the ASCII Char$() List. A selection just highlights in the combo window.
+Mainly for quick reference.
 
-LB Samples is a list of the sample code provided by Liberty Basic, and comes from a folder in AppData.
+LB Samples is a list of the sample code provided by Liberty Basic, and comes from a folder in 
+c:\Users\YOURUSERNAME\AppData\Roaming\Liberty Basic v4.5.1  (AppData is a hidden folder)
 When selected, they open up in the Liberty Basic IDE for editing.
 
-LB Bak(up) files same as Samples.
+LB Bak(up) files same as Samples. Liberty Basic makes backups of files that are RUN. They are kept in 
+c:\Users\YOURUSERNAME\AppData\Roaming\Liberty Basic v4.5.1\BAK (AppData is a hidden folder)
 
 LB Dialogs is a list of the built in Dialogs you can use in your programs.
 Clicking on one will open it in your browser(it is one of the Liberty Basic HTML Help files), or if you downloaded htmlviewer it will open in that browser by default. Very fast, and doesn't go online(wasn't built for online, so it opens instantly. The window for htmlviewer can be re-sized to a sliver and when closed will remember it's place, and it's re- sized dimensions.(Last window closed becomes the re-size) be forewarned.
 
 Reserved Words.
 Reserved Words are all the words you CANNOT use in your programs as variables. They are basically the command set of Liberty Basic. The List is just a quick resource, and clicking on one just highlights it.
+
+The Number Converter
+The number converter will convert FROM or TO   --  HEX, DEC and BIN numbers. type an appropriate number into any of the boxes, and the other 2 
+boxes will have converted values appear.
+The button with the 0 is to clear the boxes for re-use.
 
 The Kill All Button.
 When it is pressed, it first does a cleanup of temp files, then closes all open htmlviewer.exe windows displaying Liberty Basic Help files. Then it moves on to closes all liberty.exe files opened, and their child processes. Be wary of using this. Be sure you don't have unrelated Liberty Basic windows still opened before using it, and be sure to heed the "Are You Sure" prompt to save any work you have not saved. This uses taskkill(a MS Windows built in command line app to force kill the opened liberty.exe files. There is no mercy, they ALL die.
@@ -136,16 +144,19 @@ alt Y > Opens Selected Item for Edit in Liberty Basic IDE
 alt x > clears all logs
 alt - > Opens as if [Re-Make Project] was pressed
 alt shift _ > Opens the MS Windows Taskmaster(unless a runtime error occurs)
+alt 2 > Converts Dec to Bin, Bin to Dec, Dec to Hex, Hex to Dec, Hex to Bin, Bin to Hex (depending on input value) Integer values >0 only
+alt 0 > Clears the Converter boxes.
+© 2021 GitHub, Inc.
 
-Also, almost forgot. Whenever any automation occurs, backups(dated) are created of the selected.bas file, the TKN file and the EXE file in Separate folders. Browse your DefaultDir$ to view them. Whenever a Listing is deleted, a backup is made of the corresponding categorie file. It is there in case you need it, but is overwritten on the next deleted Listing
+Whenever any automation occurs via Make Project, BAS<2>EXE or BAS<2>TKN, backups(dated) are created of the selected .bas file, the TKN file and the EXE file in Separate folders. Browse your DefaultDir$ to view them. Whenever a Listing is deleted, a backup is made of the corresponding categorie file. It is there in case you need it, but is overwritten on the next deleted Listing
 
 One caveat - 
-When an EXE file is created, it only includes all the Run time files not any extra support file a user May have added. So the EXE file, when run, will error out if say, it's looking for one of the files a user added such as bmp files, ini files or any folders etc. Fixing this issue over the winter... I think I have the logic figured out.
+When an EXE file is created, it only includes all the Run time files not any extra support file a user May have added. So the EXE file, when run, will error out if say, it's looking for one of the files a user added such as bmp files, ini files or any folders etc. The EXE file is created by IEXPRESS, and it does not alow for folders to be included in the EXE file either. Fixing this issue over the winter... I think I have the logic figured out. 
 
-The created EXE files, when Run, runs from the Windows Temp dir, and gets deleted when the EXE file is closed, or End 'd
-That is an IEXPRESS thing. I can't do anything about that. But for future I can copy it to a Dir on the users Home dir, and run it from there so any files created don't get deleted when closed or End 'd. I'll be working on that over the winter. Also I want to be able to add any support files to the EXE which the user adds to a project. Not easy, but is doable.
+The created EXE files, when Run, run from the Windows Temp dir, and get deleted when the EXE file is closed, or End 'd (entire folder gets deleted)
+That is an IEXPRESS and Windows thing. I can't do anything about that. But for future(v2.0) I can copy it to a Dir on the users Home dir, and run it from there so any files created don't get deleted when closed or End 'd. I'll be working on that over the winter. Also I want to be able to add any support files to the EXE which the user adds to a project folders included. Not easy, but is doable.
 
-Keep in mind sometimes you have to double-click a Title in a Listing to see the text in the texeditor. And this oddity will also appear when Pressing BAS EXE or BAST KN, so be sure to be on the Programs RadioButton, and that the text is visible in the texteditor when clicking either of these buttons.
+Keep in mind sometimes you have to double-click a Title in a Listing to see the text in the texeditor. And this oddity will also appear when Pressing BAS EXE or BAS<2>TKN, so be sure to be on the Programs RadioButton, and that the text is visible in the texteditor when clicking either of BAS EXE or BAS<2>TKN buttons.
 
 One major issue.
 It's about Timing.
@@ -157,6 +168,10 @@ If the interest is there, or anywhere :D, I will make a second version, and popu
 
 The BEST thing about this app is that the files it creates(I mean the files YOU create) can be swapped with other users, and added to their own. Everyone involved can have a huge reservoir of code to learn from, and play around with. I could add a button to make it easy for the user to sync the files.
 The code examples from the code of this app(2600 + lines) has many variations, and many different little snippets and examples to keep a person busy for a while, let alone what we can all share with each other in the forums. @ - https://libertybasiccom.proboards.com/
+
+Copy and Paste your heart out. You can use the Large texteditor (after clicking on any RadioButton, but before any Listing is selected), as a Space to edit code, or you can open Liberty Basic or Notepad to paste code to RUN.
+ Theere is lots of code sitting around in the forums waiting to be used and enjoyed, and it doean't cost a cent. From Programs to Functions and Subroutine. From Graphical, Text Oriented, and 
+As time goes by, you will have an abundant supply of Snippets, Examples, Programs, and Scripts to work with. All at your finger tips.
 
 xxgeek, over and out.
 P.S. For now.

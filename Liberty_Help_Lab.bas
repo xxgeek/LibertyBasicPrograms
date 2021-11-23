@@ -236,8 +236,8 @@ nomainwin
    combobox #main.lbsamplesList, lbsamplesList$(), lbsampleSelected , 1120, 435, 120, 25
    statictext  #main.lbdialogstext, "LB Dialogs", 1255, 419, 100, 15
    combobox #main.lbdialogsList, lbdialogsList$(), lbdialogSelected , 1245, 435, 100, 25
-   statictext  #main.reservedwordstext, "Reserved Words", 1130, 464, 120, 15
-   combobox #main.lbreservedwordsList, lbreservedwordsList$(), lbreservedwordSelected , 1120, 480, 125, 25
+   statictext  #main.reservedwordstext, "Reserved Words", 1210, 464, 120, 15
+   combobox #main.lbreservedwordsList, lbreservedwordsList$(), lbreservedwordSelected , 1170, 480, 175, 25
 'lb bak(up) Files combobox and statictext
    statictext  #main.lbbaktext, "LB BAK (UP) Files", 1095, 374, 120, 15
    combobox #main.lbbakfilesList, lbbakfilesList$(), lbbakfileSelected , 1090, 390, 120, 25
@@ -246,21 +246,22 @@ nomainwin
    statictext  #main.useful, "Useful Tools", 1095, 102, 160, 20
    statictext  #main.browse, "Browse", 1250, 100, 162, 20
    statictext  #main.choose, "Select  a Category >>  >>> ", 55, 395, 200, 20
-   statictext  #main.killtext, "Kill All LB Processes >", 1165, 652, 150, 20
-   statictext  #main.logsClear, "Clear All Logs >", 1205, 625, 105, 20
-   statictext  #main.hex, "Hexidecimal", 1255, 510, 200, 15
-   statictext  #main.dec2bin, "Binary", 1275, 567, 80, 15
-   statictext  #main.dec, "Decimal", 1145, 520, 80, 15
-    textbox     #main.dec2h, 1120, 535, 90, 20
-    textbox     #main.hex2d, 1240, 525, 105, 20
-    textbox     #main.bin2d, 1240, 545, 105, 20
-    button #main.converter, "<&2>", [converter], UL, 1211, 535, 28, 20
-    button #main.conClear, "&0", [clearConverter], UL, 1218, 565, 20, 20
+   statictext  #main.killtext, "Kill All LB Processes >", 1165, 675, 150, 20
+   statictext  #main.logsClear, "Clear All Logs >", 1205, 652, 105, 20
+    statictext  #main.conHeader, "Converter", 1230, 510, 90, 20
+   statictext  #main.dec, "DEC", 1140, 529, 30, 15
+   statictext  #main.hex, "HEX", 1140, 549, 30, 15
+   statictext  #main.dec2bin, "BIN", 1140, 569, 30, 15
+    textbox     #main.dec2h, 1170, 525, 175, 20
+    textbox     #main.hex2d, 1170, 545, 175, 20
+    textbox     #main.bin2d, 1170, 565, 175, 20
+    button #main.converter, "&2 Convert", [converter], UL, 1180, 590, 75, 20
+    button #main.conClear, "&0 Results", [clearConverter], UL, 1265, 590, 75, 20
 'forums link
-     button #main.lbforums, "Visit the Liberty Basic Forums", [forumlink], UL, 1160, 690, 195, 17
+     button #main.lbforums, "Visit the Liberty Basic Forums", [forumlink], UL, 600, 690, 195, 17
 'kill all button, clear all logs button
-   button #main.killAll, " &K ", [killAll], UL, 1315, 653, 20, 15
-   button #main.clearLogs, " &X ", [clearLogs], UL, 1315, 625, 20, 15
+   button #main.killAll, " &K ", [killAll], UL, 1315, 675, 20, 15
+   button #main.clearLogs, " &X ", [clearLogs], UL, 1315, 652, 20, 15
 
 #lablog, "opening help lab window......."
  open "Liberty Basic v4.5.1 Help Lab and Project Organizer" for window as #main
@@ -310,7 +311,6 @@ nomainwin
         #main.deleteListing, "!hide"
         #main.remakeproject, "!font arial 10 bold"
         #main.makeproject, "!font arial 10 bold"
-        #main.conClear, "!font arial 12 bold"
 
 #lablog, "calling progressbar 0......."
   call progressBar

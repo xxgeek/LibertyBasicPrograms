@@ -150,7 +150,7 @@ nomainwin
     menu #main, "Edit"
     menu #main, "View", "LabLog (Progress Log)", [labLog], "Liberty Basic Error Log", [lberrorLog], "Runtime Error Log", [runtimeLog], "Help Lab Error Log", [helplaberrorLog], "System Information", [sysinfo]
     menu #main, "Tools" , "BAS <2> EXE", [makeEXE], "BAS <2> TKN",  [bas2tkn], ".BAS Line Count", [numofLines], "Task Manager", [taskman], "Resource Monitor", [resmon], "MSPaint", [pictures], "Voice Recorder", [record], "Notepad", [openNotePad], "Character Map", [charmap]
-    menu #main, "Options", "Display Settings", [display], "Magnifier", [magnify], "Clear Logs", [clearLogs]
+    menu #main, "Options", "HotKeys", [hotkeys], "Display Settings", [display], "Magnifier", [magnify], "Clear Logs", [clearLogs]
     menu #main, "Browse" , "My Projects", [projectsDir],"My EXE Files", [exeDir], "My TKN Files", [tknDir], "DefaultDir$", [defaultDir], "LB Example Files", [lbexamplesDir], "LB BMP Files", [bmpDir], "LB Sprite Files", [spritesDir]
     menu #main,  "Help" , "Liberty Basic Forums", [forumlink], "Help", [lbHelpLabHelp], "About", [about]
 'lbsearch by cundo
@@ -913,6 +913,15 @@ wait
   #main.addListing, "&New ";categorie$;" Script"
    category$ = categorie$
    #main.choose, "Select a  ";category$;"  Script"
+wait
+
+[hotkeys]
+#lablog, "@ - [hotkeys].....  opening hotkeys.txt in notepad......"
+     hotkeys$ = "hotkeys.txt"
+  if fileExists(DefaultDir$, hotkeys$) then
+      hotkeys$ = "hotkeys.txt"
+      run "notepad ";hotkeys$
+  end if
 wait
 
 [help]

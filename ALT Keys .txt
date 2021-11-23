@@ -22,4 +22,6 @@ alt V > Opens MS Voice Recorder
 alt Y > Opens Selected Item for Edit in Liberty Basic IDE
 alt X > Clears ALL logs.
 alt - > same as pressing [Re-Make Selected]
-alt shift _   > Open the MS Windows TaskManager
+alt shift _   > or alt shift esc Opens the MS Windows Task Manager
+alt 2 > Converts Dec to Bin, Bin to Dec, Dec to Hex, Hex to Dec, Hex to Bin, Bin to Hex (depending on input value) Integer values >0 only
+alt 0 > Clears the Converter boxes.

@@ -651,11 +651,9 @@ wait
 #main.hex2d "!contents? hexVal$";
 #main.bin2d "!contents? binVal";
     if decVal = 0 and hexVal$ =  "" and binVal = 0 then wait
-    if decVal <> int(decVal) or left$((str$(decVal)),1) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : wait
-    if binVal <> int(binVal) or left$((str$(binVal)),1) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : wait
-    if hexVal$ <> int(val(hexVal$)) or left$((str$(binVal)),1 ) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : wait
-    if decVal <> 0 and hexVal$ <> "" or binVal <> 0 and hexVal$ <> "" then notice "Can't Convert - Try ONE value at a time"
-    if binVal <> 0 and decVal <> 0 then notice "Can't Convert - Try ONE value at a time"
+    if decVal <> 0 and binVal <> 0 then  confirm "Can't Convert 2 values. Try ONE values.  Try Again?";answer$ : wait
+    if decVal <> 0 and hexVal$ <> "" or binVal <> 0 and hexVal$ <> "" then confirm "Can't Convert 2 values. Try Again?";answer$ : wait
+    if binVal <> 0 and decVal <> 0 then confirm "Can't Convert 2 values. Try ONE values.  Try Again?";answer$ : wait
     if decVal <> 0 and hexVal$ = "" and binVal = 0 then
         hex$ = dechex$(decVal)
         #main.hex2d, hex$
@@ -2685,7 +2683,7 @@ end function
 
 function dec(n)
 #lablog, "Entering function dec(n)......."
-if n <> int(n) or left$(str$(n,1 ) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : exit function
+if n <> int(n) then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : exit function
     n$ = str$(n) : ln = len(n$) : exp = ln
     for x = 1 to ln
         exp = exp - 1 : dec = dec + (val(mid$(n$,x,1)) * (2 ^ exp))
@@ -2697,7 +2695,7 @@ end function
 function Dec2Bin$(decimal)
 #lablog, "Entering function Dec2Bin$(decimal)....."
     'non-integers would not give the correct result
-    if decimal <> int(decimal) or left$(str$(decimal,1 ) = "-" then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : exit function
+    if decimal <> int(decimal) then confirm "Value MUST be an Integer"+chr$(13)+"Was this Helpful?";answer$ : exit function
     if decimal = 0 then
         Dec2Bin$ = "0"
         else

@@ -1312,6 +1312,7 @@ q$ = chr$(34)
    #main.asciiList, "reload"
  end sub
 
+
 sub getlbsamples
 #lablog," entering sub getlbsamples "
   q$ = chr$(34)
@@ -2786,6 +2787,7 @@ end sub
    close #1
  notice "Error # ";Err;"    ";Err$;chr$(13);chr$(13);" !  MISSION INTERUPTED  !  ";chr$(13);" !  ABORTTING MISSION  ! ";chr$(13);" >>> Cleaning up Temp Files...........";chr$(13);chr$(13);" See Runtime Error Log for Details ";chr$(13);chr$(13);" To Avoid Further Errors > Close & Restart  Help Lab"
 wait
+
 
 
 

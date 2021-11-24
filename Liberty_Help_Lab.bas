@@ -248,7 +248,7 @@ nomainwin
    statictext  #main.choose, "Select  a Category >>  >>> ", 55, 395, 200, 20
    statictext  #main.killtext, "Kill All LB Processes >", 1165, 675, 150, 20
    statictext  #main.logsClear, "Clear All Logs >", 1205, 652, 105, 20
-    statictext  #main.conHeader, "Converter", 1230, 510, 90, 20
+   statictext  #main.conHeader, "Converter", 1230, 510, 90, 15
    statictext  #main.dec, "DEC", 1140, 529, 30, 15
    statictext  #main.hex, "HEX", 1140, 549, 30, 15
    statictext  #main.dec2bin, "BIN", 1140, 569, 30, 15
@@ -565,7 +565,7 @@ wait
 
 'run selected MyProjects, or Program
 [runKey]
-if selectedKey$ = "" then notice "Select from list, try again" : wait
+if selectedKey$ = "" then confirm "Select from list, Try Again?";answer$ : wait
 #lablog, "Running ";selectedKey$;" in ";categorie$;" List"
 #lablog, "selected Key = ";selectedKey$
       print "selected Key = ";selectedKey$
@@ -580,7 +580,7 @@ wait
 
 'open selected listing in Liberty Basic IDE
 [edit_In_lb_IDE]
-if selectedKey$ = "" then notice "Select from list, try again" : wait
+if selectedKey$ = "" then confirm "Select from list, Try Again";answer$ : wait
 #lablog, "Running ";selectedKey$;" of ";categorie$;" with lb IDE"
    print "selectedKey$ = ";selectedKey$
       runFile$ = DefaultDir$;"\";savedProjects$;"\";selectedKey$;"\";selectedKey$;".bas"
@@ -601,7 +601,7 @@ wait
 
 [editInNotepad]
 #lablog, "Running ";selectedKey$;" of ";categorie$;" with Notepad"
-if selectedKey$ = "" then notice "Select from list, try again" : wait
+if selectedKey$ = "" then confirm "Select an item from the list, Try Again?";answer$ : wait
  runFile$ = DefaultDir$;"\";savedProjects$;"\";selectedKey$;"\";selectedKey$;".bas"
          print "runFile$ = ";runFile$
          res = fileExists(DefaultDir$;"\";savedProjects$;"\";selectedKey$, selectedKey$;".bas")
@@ -1413,7 +1413,7 @@ end sub
 [makeproject]
 #lablog," @ - [makeproject]"
      if categorie$ <> MyProjects$ then
-        notice "You must first select Radio Button >> MyProjects" : wait
+        confirm "Select Radio Button  >>  MyProjects  <<, and Try Again?";answer$ : wait
      end if
        tkn = 2
        project = 1
@@ -1421,7 +1421,7 @@ end sub
 
 [remakeproject]
  #lablog," @ - [remakeproject]"
-     if selectedKey$ = "" then notice "No Listing selected. Select an item from "+categorie$+ " list and Try Again " : wait
+     if selectedKey$ = "" then confirm "Select an item from >>  "+categorie$+ "  << List and Try Again? ";answer$ : wait
      if fileExists(savedProjects$;"\";selectedKey$,selectedKey$;".bas") = 0 then notice selectedKey$+chr$(13)+" of "+categorie$+" wasn't saved"+chr$(13)+"Try [Make New Project], BAS<2>EXE, or BAS<2>TKN"+chr$(13)+"And Select the appropriate .bas file" : wait
     project = 1
     tkn = 4
@@ -1429,14 +1429,14 @@ end sub
   goto [bas2exe]
 
 [bas2tkn]
-     if categorie$ <> programs$ then notice "You must first select Radio Button >> Programs" : wait
+     if categorie$ <> programs$ then confirm "Select Radio Button >>  Programs  << and Try Again?";answer$ : wait
       #lablog," @ - [bas2tkn]"
        tkn = 3
 goto [bas2exe]
 
 [makeEXE]
           if categorie$ <> programs$ then
-             notice "You must first select Radio Button >> Programs" : wait
+             confirm "Select Radio Button >>  Programs  << and Try Again?";answer$ : wait
           end if
           tkn = 0
  'BAS2EXE Version v1.8a For Linux/WINE,  Windows 10 (possibly XP, Win 7, 8)
@@ -1685,7 +1685,7 @@ res=fileExists(lbpath$,"vvmt31w.dll")
    if p=0 then [filediag]
    #lablog, "Prompting user for password to add to the exe file about to be created"
    if p= 1 then Prompt "TYPE a PASSWORD"+chr$(13)+ "Password for EXE file is:       (no spaces)";passwerd$
-  if passwerd$ = "" then notice "BAS2EXE will continue, without placing a password on the EXE file created" : p = 0
+  if passwerd$ = "" then confirm "BAS2EXE will continue, without placing a password on the EXE file created";answer$ : p = 0
 
 ' Use the filedialog function to allow user to select a source file (.bas)
 [filediag]
@@ -1908,7 +1908,7 @@ autoSave$ = "autoSave.vbs"
  #1, "WshShell.AppActivate ";q$;"Save *.TKN File As...";q$
  '#1, "Wscript.Sleep(200)" - keeping for testing
  #1, "WshShell.SendKeys ";q$;"{ENTER}";q$
- #1, "Wscript.Sleep(1000)" 'this delay may need adjusting on your pc
+ #1, "Wscript.Sleep(2500)" 'this delay may need adjusting on your pc
  #1, "WshShell.AppActivate ";q$;"saved as";q$
  #1, "WshShell.SendKeys ";q$;"{ENTER}";q$
   close #1
@@ -1933,14 +1933,14 @@ print "creating the tkn file..........."
 #lablog, "creating the tkn file..........."
   RUN lbpath$;"\";lbexe$;" -T -A ";DestPath1$;"\";fname0$
 'give time for the save TKN window to appear
-  call pause 1800
+call pause 1500
 
 '#######################################################################
  'run the script to close the "save" dialog, and the follow up notice of creation automatically
    #lablog," running autoSave vbs script to auto 'click' ENTER on 'save as' dialog and Information dialog "
   run "wscript  ";autoSave$
 '#######################################################################
-call pause 500
+call pause 1500
 
 'loop until TKN File is verified saved
 #lablog, "verifying tkn file created..........."

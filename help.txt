@@ -1,10 +1,6 @@
 
 This is a short abbreviated help for now. Working on a better solution for version 2.
 
-IMPOTANT!!!
-Don't have any spaces in your Selected File when Making an EXE file. Making new TKN or MyProject is ok with spaces, but IEXPRESS wants no spaces.
-I'll deal with this soon
-
 Basically there are 6 areas. Top Left, Top Middle, Top Right, Bottom left, Bottom Middle, Bottom, Left.
 
 

@@ -1314,7 +1314,6 @@ q$ = chr$(34)
    #main.asciiList, "reload"
  end sub
 
-
 sub getlbsamples
 #lablog," entering sub getlbsamples "
   q$ = chr$(34)
@@ -1640,12 +1639,9 @@ res = pathExists(lbpath$)
 print "@ [spriteOnly]"
   #lablog," @ - [spriteOnly] "
 ' Liberty Basic 4.5.1 is installed - continue on
- 'define some variables
-  'p=0 'passworded exe = false
-  'lbexe$ = "liberty.exe"
-  'lbruntime$ = "lbrun2.exe"
   DllList$="vbas31w.sll vgui31w.sll voflr31w.sll vthk31w.dll vtk1631w.dll vtk3231w.dll vvm31w.dll vvmt31w.dll"
   savedProjects$ = "savedProjects"
+
 #lablog, "Checking existence for lbrun$ lbexe$ lbpath$, and all the supproting dll and sll files."
  'Checking all paths and file locations for existence (dll's, sll's, lbasic.exe, and lbrun2.exe)
 #lablog, "Checking lbexe$"
@@ -1694,7 +1690,8 @@ print "Opening FileDialog - User chooses .bas file to create TKN, EXE, or Projec
   if tkn = 4 then [spriteOnly2]
 print "Opening FileDialog - User chooses .bas file to create TKN, EXE, or Project"
 #lablog, "Opening FileDialog - User chooses .bas file to create TKN, EXE, or Project"
-'open file dialog to choose a .bas file for exe conversion
+
+'open file dialog to choose a .bas file for exe or tkn conversion
  filedialog "Open \ Select a Liberty Basic Source File (.bas) ", DefaultDir$; "\*.bas", fname$
      if fname$ = "" then notice "No file selected" : cursor normal : wait
 
@@ -1908,7 +1905,7 @@ autoSave$ = "autoSave.vbs"
  #1, "WshShell.AppActivate ";q$;"Save *.TKN File As...";q$
  '#1, "Wscript.Sleep(200)" - keeping for testing
  #1, "WshShell.SendKeys ";q$;"{ENTER}";q$
- #1, "Wscript.Sleep(2500)" 'this delay may need adjusting on your pc
+ #1, "Wscript.Sleep(1500)" 'this delay may need adjusting on your pc
  #1, "WshShell.AppActivate ";q$;"saved as";q$
  #1, "WshShell.SendKeys ";q$;"{ENTER}";q$
   close #1
@@ -1933,14 +1930,14 @@ print "creating the tkn file..........."
 #lablog, "creating the tkn file..........."
   RUN lbpath$;"\";lbexe$;" -T -A ";DestPath1$;"\";fname0$
 'give time for the save TKN window to appear
-call pause 1500
+call pause 2000
 
 '#######################################################################
  'run the script to close the "save" dialog, and the follow up notice of creation automatically
    #lablog," running autoSave vbs script to auto 'click' ENTER on 'save as' dialog and Information dialog "
   run "wscript  ";autoSave$
 '#######################################################################
-call pause 1500
+call pause 2000
 
 'loop until TKN File is verified saved
 #lablog, "verifying tkn file created..........."
@@ -1952,12 +1949,11 @@ call pause 1500
 print "tkn verified saved to new project dir"
 #lablog, "tkn verified and saved to ";DestPath1$;"\";fnamenobas$;".tkn"
 
+call pause 500
+
 'remove any existing tkn of same name in TKN dir
 #lablog, "checking for existing";DestPath1$;"\TKN\"; fnamenobas$;fixeddate$;".tkn"
  if fileExists (DefaultDir$;"\TKN", fnamenobas$;fixeddate$;".tkn") <> 0 then kill DefaultDir$;"\TKN\";fnamenobas$;fixeddate$;".tkn"
-
-'let liberty basic cool off for a second just to be nice :D
-call pause 500
 
 'copy TKN$ file to TKN dir, and date it
 print "copying tkn to TKN dir and dating it............."
@@ -1988,17 +1984,19 @@ print "@ [continueOn] - tkn file verified dated and saved to TKN dir..........."
      goto [continue]
   end if
 
+'if tkn =3 then add new Title to Programs List, and copy code to texteditor"
    if tkn = 3 then
        print "sending to [newKey]/[continue] to add to ";categorie$;" List........  ";programs$
- #lablog, "sending to [newKey]/[continue] to add to ";categorie$;" List........  ";programs$
+      #lablog, "sending to [newKey]/[continue] to add to ";categorie$;" List........  ";programs$
       newKey$ = fnamenobas$
       categorie$ = programs$
      goto [continue]
   end if
 
-  if tkn = 4 then
-    print "sending to [newKey]/[continue] to add to ";categorie$;" List........"
- #lablog, "sending to [newKey]/[continue] to add to ";categorie$;" List........"
+ 'if tkn = 4 then add new Title to Programs List, and copy code to texteditor"
+   if tkn = 4 then
+      print "sending to [newKey]/[continue] to add to ";categorie$;" List........"
+     #lablog, "sending to [newKey]/[continue] to add to ";categorie$;" List........"
       newKey$ = fnamenobas$
       categorie$ = MyProjects$
      goto [continue]
@@ -2109,7 +2107,7 @@ res=fileExists("c:\windows\system32","iexpress.exe")
      print "@ [makeinst] exe file existence verified heading to execute IEXPRESS commandline"
  #lablog, "@ [makeinst] exe file existence verified heading to execute IEXPRESS commandline"
 
-'makes 64 bit exe
+'makes 64 bit exe (supposedly)
     if bit=32 then [do32bit]
  print "running iexpress(64bit) commandline using the sed (information file) created earlier"
  #lablog, "running iexpress(64bit) commandline using the sed (information file) created earlier"
@@ -2118,7 +2116,7 @@ res=fileExists("c:\windows\system32","iexpress.exe")
  res=fileExists(express64$,"iexpress.exe")
    if res then run "iexpress /N /q ";sedfile$ else noiex=1 : goto [noiex]
 
-'makes 32 bit exe
+'makes 32 bit exe (supposedly)
  [do32bit]
  print "running iexpress.exe(32bit) commandline using the sed (information file) created earlier"
  #lablog, "running iexpress.exe(32bit) commandline using the sed (information file) created earlier"
@@ -2127,7 +2125,7 @@ res=fileExists("c:\windows\system32","iexpress.exe")
  res=fileExists(express32$,"iexpress.exe")
    if res then run "iexpress /N /q ";sedfile$ else noiex=1 : goto [noiex]
 
-call pause 5500
+call pause 2500
 
 [verifyEXE]
 print "@ [verifyEXE] entering verification loop"
@@ -2140,9 +2138,10 @@ print "@ [verifyEXE] entering verification loop"
  scan
   loop until res
 
-'The EXE file gets created partially and fools the verification - pause to allow time
+'The EXE file gets created partially and fools the verification - > long pause to allow time
 'for complete file creation - NOTE - This pause may need adjustment on YOUR PC
-   call pause 4500
+'or if your selected .bas file is HUGE(tested with files from 1kb to 300kb)
+   call pause 2500
 
 [noiex]
 ' copy SED script file to SED dir

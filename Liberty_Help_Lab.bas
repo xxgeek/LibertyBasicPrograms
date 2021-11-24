@@ -374,9 +374,10 @@ print "Creating new ";categorie$;" Listing"
         #main.value "!setfocus";
         call collectGarbage
         call writeDictionary
-        lastKey$ = newKey$
+        'lastKey$ = newKey$
 'xxgeek code
         if tkn = 2 or tkn = 4 then
+
                 #lablog "Adding new key -> ;";fname$;" to -> ";categorie$
                 #main.savedprojects, "set"
                  open fname$ for input as #1
@@ -410,6 +411,7 @@ print "Creating new ";categorie$;" Listing"
            goto [done]
     end if
   end if
+  lastKey$ = newKey$
  wait
 
 'xxgeek code
@@ -1713,6 +1715,19 @@ print "separating name from path, and name from extension"
  next var4
  var6 = abs(var6)
  fnamenobas$ = left$(fname0$, var5)
+
+ 'remove any spaces in the selected file name
+'dim s$(250)
+   'for x =  len(fnamenobas$) to 1 step -1
+            '  s$(x) = mid$(fnamenobas$,x, 1)
+             ' s$=s$(x)
+          ' if s$ <> " " then s2$ = s$;s2$
+            ' s$=s2$
+   'next x
+   'fnamenobas$ = s$
+   '#lablog, "New Filename after spaces removed = ";fnamenobas$
+ 'print, "New Filename after spaces removed = ";fnamenobas$
+
   #lablog, "fnamenobas$ = ";fnamenobas$
  ' fname$ = Full Path of User Selected .bas file (including the filename.bas)
  ' fname0$ = Name of the Selected .bas File Only - eg ; filename.bas
@@ -1755,7 +1770,7 @@ if spritecreated = 1 or tkn = 4 then [noDelete]
 'remove existing fname0$ from dir before creating new one
 print "removing existing same name file prior to copying bas file to new project dir"
 #lablog, "removing existing same name file prior to copying bas file to new project dir"
-   if fileExists(DestPath1$, fname0$) <> 0 then kill DestPath1$;"\";fname0$
+   if fileExists(DestPath1$, fnamenobas$;".bas") <> 0 then kill DestPath1$;"\";fnamenobas$;".bas"
 
 [noDelete]
 'copy selected bas file to Projects\current project folder
@@ -1784,22 +1799,22 @@ print "opening fnameTemp$ for input"
 
 'copy temp.bas file to current project folder
  open fnameTemp$ for input as #1
- if fileExists(DestPath1$, fname0$ ) <> 0 then kill DestPath1$;"\";fname0$
- open DestPath1$;"\";fname0$ for output as #2
+ if fileExists(DestPath1$, fnamenobas$;".bas" ) <> 0 then kill DestPath1$;"\";fnamenobas$;".bas"
+ open DestPath1$;"\";fnamenobas$;".bas" for output as #2
    print #2, input$(#1, lof(#1));
   close #2
   close #1
 
 'check if the current project .bas file was copied to new dir
-res=fileExists(DestPath1$,fname0$)
-    if res then a = a + 1 else notice fname0$; " Was not copied to  ";DestPath1$;"  - aborting mission":  wait
+res=fileExists(DestPath1$, fnamenobas$;".bas")
+    if res then a = a + 1 else notice fnamenobas$;".bas"; " Was not copied to  ";DestPath1$;"  - aborting mission":  wait
 print "finished copying and verifying bas file exists new project dir........"
 #lablog, "finished copying and verifying bas file exists new project dir........"
 
 'copy selected .bas file to BAS dir and date it
 print "start copying bas file to BAS dir and dating it........"
 #lablog, "start copying bas file to BAS dir and dating it........"
- open DestPath1$;"\";fname0$ for input as #file
+ open DestPath1$;"\";fnamenobas$;".bas" for input as #file
   open DestPath$;"\";"BAS\";fnamenobas$;fixeddate$;".bas" for output as #1
      print #1, input$(#file, lof(#file));
  close #file
@@ -1808,7 +1823,7 @@ print "start copying bas file to BAS dir and dating it........"
 'remove any existing exe of same name as bas file selected only if created on same date
 print "remove any existing exe of same name as bas file selected only if created on same date."
 #lablog, "removing any existing exe of same name as bas file selected only if created on same date"
-if fileExists(DestPath$;"\EXE", fnamenobas$;fixeddate$;".exe.BAK")  <> 0 then kill DestPath$;"\";"EXE";"\";fnamenobas$;fixeddate$;".exe.BAK"
+if fileExists(DestPath$;"\EXE", fnamenobas$;fixeddate$;".exe")  <> 0 then kill DestPath$;"\";"EXE";"\";fnamenobas$;fixeddate$;".exe"
     print "finished checking and deleting existing bas file in BAS dir..........."
     print "starting copying necessary dll, and sll files to new project dir......."
 
@@ -1887,7 +1902,7 @@ res=fileExists(DestPath1$,"vvmt31w.dll")
 res=fileExists(DestPath1$,fnamenobas$;".exe")
   if res then a=a+1 else notice "lbrun2.exe not copied or renamed - aborting mission":  wait
 print "finished deleting, and verifying the rename of lbrun2 in new project dir"
-#lablog, "lbrun2.exe was renamed to ";selectedKey$;".exe"
+#lablog, "lbrun2.exe was renamed to ";fnamenobas$;".exe"
 
 'check for any left over tkn file existence delete if true
 #lablog, "checking for any left over tkn file existence due to errors on past runs, if true, deleting ";fnamenobas$;".tkn"
@@ -1928,7 +1943,7 @@ print "autosave vbs file written, saved, and existence verified............."
 'Create the TKN file in Projects\current project folder.
 print "creating the tkn file..........."
 #lablog, "creating the tkn file..........."
-  RUN lbpath$;"\";lbexe$;" -T -A ";DestPath1$;"\";fname0$
+  RUN lbpath$;"\";lbexe$;" -T -A ";DestPath1$;"\";fnamenobas$;".bas"
 'give time for the save TKN window to appear
 call pause 2000
 
@@ -2125,7 +2140,7 @@ res=fileExists("c:\windows\system32","iexpress.exe")
  res=fileExists(express32$,"iexpress.exe")
    if res then run "iexpress /N /q ";sedfile$ else noiex=1 : goto [noiex]
 
-call pause 2500
+call pause 3500
 
 [verifyEXE]
 print "@ [verifyEXE] entering verification loop"
@@ -2141,7 +2156,7 @@ print "@ [verifyEXE] entering verification loop"
 'The EXE file gets created partially and fools the verification - > long pause to allow time
 'for complete file creation - NOTE - This pause may need adjustment on YOUR PC
 'or if your selected .bas file is HUGE(tested with files from 1kb to 300kb)
-   call pause 2500
+   call pause 3500
 
 [noiex]
 ' copy SED script file to SED dir

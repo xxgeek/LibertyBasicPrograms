@@ -1905,7 +1905,7 @@ autoSave$ = "autoSave.vbs"
  #1, "WshShell.AppActivate ";q$;"Save *.TKN File As...";q$
  '#1, "Wscript.Sleep(200)" - keeping for testing
  #1, "WshShell.SendKeys ";q$;"{ENTER}";q$
- #1, "Wscript.Sleep(550)" 'this delay may need adjusting on your pc
+ #1, "Wscript.Sleep(1000)" 'this delay may need adjusting on your pc
  #1, "WshShell.AppActivate ";q$;"saved as";q$
  #1, "WshShell.SendKeys ";q$;"{ENTER}";q$
   close #1
@@ -1930,14 +1930,14 @@ print "creating the tkn file..........."
 #lablog, "creating the tkn file..........."
   RUN lbpath$;"\";lbexe$;" -T -A ";DestPath1$;"\";fname0$
 'give time for the save TKN window to appear
-  call pause 1500
+  call pause 1800
 
 '#######################################################################
  'run the script to close the "save" dialog, and the follow up notice of creation automatically
    #lablog," running autoSave vbs script to auto 'click' ENTER on 'save as' dialog and Information dialog "
   run "wscript  ";autoSave$
 '#######################################################################
-call pause 1500
+call pause 500
 
 'loop until TKN File is verified saved
 #lablog, "verifying tkn file created..........."

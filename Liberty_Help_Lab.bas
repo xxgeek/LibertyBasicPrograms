@@ -1696,7 +1696,7 @@ print "Opening FileDialog - User chooses .bas file to create TKN, EXE, or Projec
 #lablog, "Opening FileDialog - User chooses .bas file to create TKN, EXE, or Project"
 'open file dialog to choose a .bas file for exe conversion
  filedialog "Open \ Select a Liberty Basic Source File (.bas) ", DefaultDir$; "\*.bas", fname$
-     if fname$ = "" then notice "No file selected" :  : cursor normal : wait
+     if fname$ = "" then notice "No file selected" : cursor normal : wait
 
 [spriteOnly2] 'to make sure the lb support files are in the SpriteCreator v2 folder
 print "file chosen = ";fname$

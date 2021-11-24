@@ -1148,7 +1148,7 @@ print "@ [clearLogs] - closing #lablog temporarily, and clearing lablog.log"
    print "lablog cleared"
     end if
     if fileExists(upath$;"\Application Data\Liberty Basic v4.5.1", lberrorlog$) <> 0 then
-         kill upath$;"\Application Data\Liberty Basic v4.5.1\";"\";lberrorlog$
+         kill upath$;"\Application Data\Liberty Basic v4.5.1\";lberrorlog$
         #lablog, "Liberty Basic Error Log Cleared  > ";date$();" ";time$()
     end if
     if fileExists(DefaultDir$, helplaberrorLog$) <> 0 then
@@ -1159,7 +1159,9 @@ print "@ [clearLogs] - closing #lablog temporarily, and clearing lablog.log"
          kill DefaultDir$;"\";runtimeErrorLog$
          #lablog, "Runtime Error Log Cleared > ";date$();" ";time$()
     end if
-
+    open upath$;"\AppData\Roaming\Liberty Basic v4.5.1\";lberrorlog$ for output as #1
+    #1, " "
+    close #1
  wait
 
 'open Liberty Basic IDE

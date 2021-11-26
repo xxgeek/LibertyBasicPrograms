@@ -41,7 +41,7 @@ WARNING - Make sure there are no spaces in your filename(.bas source file) befor
 
  - When this button is pressed, it assumes you have already selected Radio Button Programs. Will prompt if you have another Radio Button selected to change to Programs.  Once that is settled, it asks the user to select a working.bas file then opens the fileDialog and goes on to create the EXE file (Using IEXPRESS a built in Microsoft attempt at an installer)
 
- In the process of making the EXE file, before IEXPRESS gets involved, the Runtime files need to be put in a folder, along with the users selected bas file, and the tkn file created along the way. And the run451.exe file needs to be renamed to the users selected.bas source file. Since these actions need to be taken to get to where we need to be regarding the EXE file creation, we might as well use them to our advantage, and Keep them, Run them, or Edit them. You'll notice Buttons with those words on them, and when you use BAS<2>EXE you will see an option to Keep Project(checkbox). You may not wish to keep the whole folder of runtime files for every EXE or tkn you make(but NOT keeping them means you can't run them using the selected Listing, although you can still edit the code in LB or Notepad as "untitled" and save it to make the tkn, exe or project later). 
+ In the process of making the EXE file, before IEXPRESS gets involved, the Runtime files need to be put in a folder, along with the users selected bas file, and the tkn file created along the way. And the run451.exe file needs to be renamed to the users selected.bas source file. Since these actions need to be taken to get to where we need to be regarding the EXE file creation, we might as well use them to our advantage, and Keep them, Run them, or Edit them. You'll notice Buttons with those words on them, and when you use BAS<2>EXE or BAS<2>TKN you will see an option to Keep Project(checkbox). You may not wish to keep the whole folder of runtime files for every EXE or tkn you make(but NOT keeping them means you can't run them using the selected Listing, although you can still edit the code in LB or Notepad as "untitled" and save it to make the tkn, exe or project later). 
 
 You will also see options to make 64bit or 32 bit EXE's(whether these actually make 64 bit exe's I don't know, but the paper work says they do). You can also put a password on the EXE file, so it can only be opened if the password is known. SED files and VBS scripts can also be kept (checkboxes). SED files are the information files IEXPRESS needs to make the EXE file. SED (SELF EXTRACTING DIRECTIVE) VBS (VISUAL BASIC SCRIPT)
 
@@ -82,11 +82,11 @@ LB Samples is a list of the sample code provided by Liberty Basic, and comes fro
 c:\Users\YOURUSERNAME\AppData\Roaming\Liberty Basic v4.5.1  (AppData is a hidden folder)
 When selected, they open up in the Liberty Basic IDE for editing.
 
-LB Bak(up) files same as Samples. Liberty Basic makes backups of files that are RUN. They are kept in 
+LB Bak(up) files same as Samples. Liberty Basic makes backups of files that are created when a user RUN's or debugs any source code(as long as slected in Liberty's Preferences).  They are kept in 
 c:\Users\YOURUSERNAME\AppData\Roaming\Liberty Basic v4.5.1\BAK (AppData is a hidden folder)
 
 LB Dialogs is a list of the built in Dialogs you can use in your programs.
-Clicking on one will open it in your browser(it is one of the Liberty Basic HTML Help files), or if you downloaded htmlviewer it will open in that browser by default. Very fast, and doesn't go online(wasn't built for online, so it opens instantly. The window for htmlviewer can be re-sized to a sliver and when closed will remember it's place, and it's re- sized dimensions.(Last window closed becomes the re-size) be forewarned.
+Clicking on one will open a help file in your browser(it is one of the Liberty Basic HTML Help files), or if you downloaded htmlviewer it will open in that browser by default. Very fast, and doesn't go online(wasn't built for online, so it opens instantly. The window for htmlviewer can be re-sized to a sliver and when closed will remember it's place, and it's re- sized dimensions.(Last window closed becomes the re-size) be forewarned.
 
 Reserved Words.
 Reserved Words are all the words you CANNOT use in your programs as variables. They are basically the command set of Liberty Basic. The List is just a quick resource, and clicking on one just highlights it.
@@ -172,8 +172,8 @@ If the interest is there, or anywhere :D, I will make a second version, and popu
 The BEST thing about this app is that the files it creates(I mean the files YOU create) can be swapped with other users, and added to their own. Everyone involved can have a huge reservoir of code to learn from, and play around with. I could add a button to make it easy for the user to sync the files.
 The code examples from the code of this app(2600 + lines) have many variations, and many different little snippets and examples to keep a person busy for a while, let alone what we can all share with each other in the forums. @ - https://libertybasiccom.proboards.com/
 
-Copy and Paste your heart out. You can use the Large texteditor (after clicking on any RadioButton, but before any Listing is selected), as a Space to edit code, or you can open Liberty Basic or Notepad to paste code to RUN.
- Theere is lots of code sitting around in the forums waiting to be used and enjoyed, and it doean't cost a cent. From Programs to Functions and Subroutine. From Graphical, Text Oriented, and Code for operating external hardware through com ports, and joystick ports.
+Copy and Paste your heart out. You can use the Large texteditor (before or after clicking on any RadioButton, but before any Listing is selected), as a Space to edit code, or you can open Liberty Basic or Notepad to paste code to RUN or edit.
+ Theere is lots of code sitting around in the forums waiting to be used and enjoyed, and it doean't cost a cent. From Programs to Functions and Subroutine. From Graphical, Text Oriented, and Code for operating external hardware through com ports, and joystick ports, plus a whole lot more..
 As time goes by, you will have an abundant supply of Snippets, Examples, Programs, and Scripts to work with and share with peers. All at your finger tips.
 
 xxgeek, over and out.

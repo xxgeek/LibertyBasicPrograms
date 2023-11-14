@@ -1,0 +1,25 @@
+Lowercase, or Uppercase = Do the same thing as stated below
+alt A > opens Notepad
+alt B > when Programs Radio Buttun is Selected Opens BAS<2>EXE
+alt C > Opens Calculator
+alt D > When Any Radio Butun is Selected, and One of the Items in the list is Selected > Deletes Selected from the List
+alt E > Opens drop down menu at top of window > Edit
+alt F > Opens Liberty Basic FreeForm Editor
+alt G > Generates Window code, and copies the code to ClipBoard
+alt H > Opens Liberty Basic Help in Browser (if htmlviewer.exe exists in DefaultDir$ it is used else Default Browser)
+alt I > If SpriteCreator v2 Folder exists in DefaultDir$ then Opens SpriteCreator
+alt K > Ends ALL Liberty Basic (liberty.exe)Instances, and All htmlviewer.exe instances - Warning - be careful
+alt L > Opens Selected Item for Edit in Notepad
+alt M > Opens Make New Project Window for file selection
+alt N > When ANY Radio Button is Selected Opens to Appropriate New Name Prompt
+alt O > Opens this apps log (same as button [Lablog]
+alt P > Opens MSPaint
+alt R > When MyProjects, or Programs Radio button selected > Runs Selected Item in List
+alt S > For Search in Help File if Keyword longer than 3 characters has been typed in Search Box
+alt T > Opens BAS<2>TKN Window for file selection
+alt U > Opens Liberty Basic Tutorial
+alt V > Opens MS Voice Recorder
+alt Y > Opens Selected Item for Edit in Liberty Basic IDE
+alt X > Clears ALL logs.
+alt - > same as pressing [Re-Make Selected]
+alt shift _   > Open the MS Windows TaskManager
